@@ -2,13 +2,75 @@
 <html>
    <head>
       <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="stylesheet" type="text/css" href="http://meyerweb.com/eric/tools/css/reset/reset.css"><!-- This CSS reset sheet was found here: http://meyerweb.com/eric/tools/css/reset/ -->
+      <link href='http://fonts.googleapis.com/css?family=Special+Elite' rel='stylesheet' type='text/css'><!--Font from Google font API--> 
+      <script src="http://code.jquery.com/jquery-2.1.1.js"></script>
+      <script src="./timesTable.js"></script>
+      <link rel="stylesheet" type="text/css" href="./css/a03a.css"><!-- My style sheet for this assignment-->
+
      <!-- 
-      This is just a page for trying things out.
-      Created: October 1, 2014 by Uzi
-      -->
-      <title>Uzi is FINALLY trying out GitHub</title>
+      File: http://weblab.cs.uml.edu/~ssouza/assign03a.html
+      91.461 Assignment 6: JavaScript and HTML forms 
+      Susan 'Uzi' Souza, Undergraduate Computer Science Student at UMass Lowell: Susan_Souza@student.uml.edu
+      This assignment is meant to generate a multiplication table from input entered in a form on a single page.
+      Original template created on September 22, 2014 at 3:24 PM by Uzi, as a redesign/blank slate using the box model after a 
+      number of attempts to improve a previous version.
+      Modified on October 21, 2014 to add form content.
+      Modified on October 23, 2014 to further tweak the new form content, add spans for error messages etc.
+     -->
+     <title>Assignment 6: JavaScript and HTML forms</title>
    </head>
+
    <body>
-      I can explain how magical undead work for hours, but virus zombies? Not a single thing.
+      <div id="container"><!-- This is the outer container for content.  Doing it this way allows more control over the position of all elements on the page. -->
+         <header><!-- This is the header.  The title displayed in the page itself lives here, along with the little tagline-like bit of text -->
+            <h1 id="pageHeader">Assignment 03: Styling Your First Web Page With CSS</h1>
+            <div id="TopHeaderContainer">
+               <div id="TopHeaderPadding"></div> <!-- This div helps positioning of its sibling divs--> 
+               <div id="TopHeaderContent"><!-- This is the inner container for the header.  It's actually creating that thin, red horizontal line. -->
+                  <p id="tagline">Seriously, though: how do virus zombies even <em>work</em>? </p> <!-- This is that little bit of text immediately below the red, horizontal line. -->
+               </div><!-- End TopHeaderContent div-->
+            </div><!-- End TopHeaderContainer div-->
+         </header><!-- End TopHeaderContainer -->
+         <div id ="sidebarL"><!-- This is that big, red bar on the left that contains all the links. -->
+            <div id="iconContainer">
+               <div id="iconPadding"></div>
+               <div id="squareicon"><p>Pretend there's an icon here.</p><p>  Do it. </p></div><!-- This div is that red square that is pretending to be some sort of icon or logo. -->
+            </div><!--End iconContainer-->
+            <nav><!-- list of navigation links for the site -->
+               <ul id="assignmentIndex">
+                  <li><a href="//weblab.cs.uml.edu/~ssouza/assign02.html">Assignment 02</a></li>
+                  <li><a href="//weblab.cs.uml.edu/~ssouza/assign03a.html">Assignment 03</a></li>
+                  <li><a href="//tychelaughs.github.io/uziHomeworkPages">Assignment 04</a></li>
+                  <li><a href="//weblab.cs.uml.edu/~ssouza/assign05HostagesB.html">Assignment 05</a></li>
+                  <li><a href="//tychelaughs.github.io/uziHomeworkPages">Assignment 06</a></li>
+                  <li><a href="//weblab.cs.uml.edu/~ssouza/noTimeTravelYetSorryC.html">Assignment 07</a></li>
+                  <li><a href="//weblab.cs.uml.edu/~ssouza/noTimeTravelYetSorryC.html">Assignment 08</a></li>
+               </ul>
+               <ul id="otherContentLinks"><!--Links to other pages that aren't necessarily other assignments.-->
+                  <li><a href="./assign03Hostages.html">Writing Sample: Hostages</a></li>
+                  <li><a href="./assign03a.html">About Uzi</a></li>
+               </ul>
+            </nav>
+         </div><!-- End sidebar L div--> 
+         <div class="centralContentContainer"><!-- This is the outer container for content not found in the sidebar or he header.  Doing it this way allows more control over the position of all elements on the page. -->
+            <div class="centralContentPadding"></div> <!-- This div helps positioning of its sibling div--> 
+            <div class="centralContentBlock">
+               <form action="javascript:void(0)" id="fourFieldForm" name= "fourFieldForm">
+                  <fieldset><legend>Please enter starting and ending value ranges for a multiplication table</legend>
+                     <!-- Each of these label-input-span paragraphs are for form input fields; the spans are for the error messages if given invalid input. -->
+                     <p><label for="rowMin">First value lower bound(row): </label><input type="text" id="rowMin" name="rowMin" size = "5" tabindex= "1"/><span class="errMessage" id="in3Error"></span></p>
+                     <p><label for="rowMax">First value upper bound(row): </label><input type="text" id="rowMax" name="rowMax"size = "5" tabindex= "2"/><span class="errMessage" id="in4Error"></span></p>
+                     <p><label for="colMin">Second value lower bound(column): </label><input type="text" id="colMin" name="colMin"size = "5" tabindex= "3"/><span class="errMessage" id="in1Error"></span></p>
+                     <p><label for="colMax">Second value upper bound(column): </label><input type="text" id="colMax" name="colMax"size = "5" tabindex= "4"/><span class="errMessage" id="in2Error"></span></p>
+                     <!-- <p class="submit"><input type="submit" value="Submit" /></p> --> <!-- using the change event instead of submit allows me to avoid using a submit button -->
+                  </fieldset>
+               </form>
+               <div id="products"></div><!-- div into which the generaged multiplication table is to be dropped.-->
+            </div><!--End centralcontentBlock div-->
+         </div><!--End centralContentContainer div-->
+      </div><!--End container div-->
+      
    </body>
 </html>
