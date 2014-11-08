@@ -39,7 +39,7 @@
 
   // Sets the "active" class on the active navigation link.
   function setActiveLink(fragmentId){
-    $("#navbar a").each(function (i, linkElement) {
+    $("#index a").each(function (i, linkElement) {
       var link = $(linkElement),
           pageName = link.attr("href").substr(1);
       if(pageName === fragmentId) {
@@ -80,39 +80,3 @@
   $(window).bind('hashchange', navigate);
 }());
 
-/*
-		if(!location.hash){
-			location.hash = "#mwenin";
-		}
-
-		window.addEventListener("hashchange", function () {
-			console.log(location.hash);
-
-			var content = document.getElementById("content");
-
-			if( location.hash == "#mwenin")
-			{
-				
-			}
-			if( location.hash == "#frost")
-			{
-				
-			}
-			if( location.hash == "#lantern")
-			{
-				
-			}
-         if( location.hash == "#guide")
-			{
-				
-			}
-         if( location.hash == "#wisp")
-			{
-				
-			}
-         if( location.hash == "#illuse")
-			{
-				
-			}
-			 
-		});*/
