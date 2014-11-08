@@ -204,3 +204,17 @@ text-indent: 2px;
 margin-left: 6px;
 
 }
+.active{
+  background-color:#0e4601;/*dark green*/
+  /*right: 1%;*/
+  border: 1px solid #f5f2e6;/*This makes a nice border around the link.  Found here: http://www.w3schools.com/cssref/pr_border.asp*/
+  border-radius: 2em;/*this makes the border rounded.   Found here: http://www.w3schools.com/cssref/css3_pr_border-radius.asp */
+  padding: 1px 1px 1px 1px;
+  left: 5%;
+
+}
+
+.right{
+float: right;
+
+}
