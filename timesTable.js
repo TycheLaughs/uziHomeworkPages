@@ -6,35 +6,35 @@
    Modified on October 23, 2014 to add checks for invalid input.
    */
 function tablegen(colMin, colMax, rowMin, rowMax){
-console.log("Actually managed to call the tablegen function");
-var stringOut = "<table>";
-var i ,k;
-i = colMin;
-k = rowMin;
-for(i; i <= colMax; i++){
-   /* If we're about to print the first row of products, insert an empty 
-   cell before we print first the range of the first factor*/
-   if(i===colMin){
-   stringOut +="<tr><td> </td>";
-   console.log(stringOut + "Added that first space");
+   console.log("Actually managed to call the tablegen function");
+   var stringOut = "<table>";
+   var i ,k;
+   i = colMin;
+   k = rowMin;
+   for(i; i <= colMax; i++){
+      /* If we're about to print the first row of products, insert an empty 
+      cell before we print first the range of the first factor*/
+      if(i===colMin){
+         stringOut +="<tr><td> </td>";
+         console.log(stringOut + "Added that first space");
 
-   for(k; k <= rowMax; k++){
-    console.log(stringOut + "Adding index row");
-      stringOut +="<td>" + k + "</td>";
-      };
-      stringOut +="</tr>";
-   };
+         for(k; k <= rowMax; k++){
+          console.log(stringOut + "Adding index row");
+          stringOut +="<td>" + k + "</td>";
+         }
+         stringOut +="</tr>";
+      }
       stringOut+= "<tr><td>" + i + "</td>";
-   for(var j = rowMin; j <= rowMax; j++){
-    console.log(stringOut + "Adding the rest of the damn content");
+      for(var j = rowMin; j <= rowMax; j++){
+         console.log(stringOut + "Adding the rest of the damn content");
 
-   stringOut += "<td>" + (j*i) + "</td>";
-   };
-   stringOut += "</tr>";
-};
-stringOut += "</table>"
-$("#products").html(stringOut);
-};
+         stringOut += "<td>" + (j*i) + "</td>";
+      }
+      stringOut += "</tr>";
+   }
+   stringOut += "</table>"
+   $("#products").html(stringOut);
+}
 
 function inputcheck(imp1, imp2, imp3, imp4){
    var errStringOut = "";/*This string holds error messages to place next to invalid fields*/
@@ -94,11 +94,11 @@ $(document).ready(function(){
    
    });*/
 
-      $("#fourFieldForm").change(function(){
+   $("#fourFieldForm").change(function(){
       console.log("Form changed!");
       inputcheck(this.colMin.value, this.colMax.value, this.rowMin.value, this.rowMax.value);
       console.log("Entered value ranges:" + this.colMin.value + "-" + this.colMax.value + ", " + this.rowMin.value + "-" + this.rowMax.value);
       tablegen(this.colMin.value, this.colMax.value, this.rowMin.value, this.rowMax.value);
-      });
+   });
 
 });
