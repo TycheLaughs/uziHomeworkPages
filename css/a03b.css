@@ -1,0 +1,279 @@
+
+ /*
+	File: A03b.css
+	91.461 Assignment 8: JQuery Validation Plugin and jQueryUI Tabs Widget with Dynamic Tabs 
+   Susan 'Uzi' Souza, Undergraduate Computer Science Student at UMass Lowell: Susan_Souza@student.uml.edu
+   This assignment is meant to generate a multiplication table from input entered in a form in new tabs on a single page. These tabs should also be removable.
+	Created on September 22, 2014 at 3:24 PM by Uzi, as a redesign/blank slate after a number of attempts to improve a previous version.
+   Modified on September 23, 2014 at 11:32 AM by Uzi, to add some more hover properties to links. 
+   Modified on September 23, 2014 at 7:34 PM by Uzi, to correct some positioning issues and add new rules for emphasis.
+   Modified on October 23, 2014 to add some more comments and the rules to deal with the forms assignment; also I made a minor adjustment to the background color to hopefully improve readability of the text.
+   Modified on November 25, 2014 to add some styling to tab and error elements.
+*/
+
+body{
+   background-color: #6b934e; /*#8ba975 #8fae77*/; /* light green*/
+   /*overflow: hidden;*/
+   font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+}
+/* This holds the title printed on the actual page*/
+#pageHeader{
+   position: relative;
+   display: inline-block;
+   text-align: center;
+   font-family: 'Special Elite', cursive; /*Google font found: http://fonts.googleapis.com/css?family=Special+Elite  */
+   margin-left: 30%;
+   color:#f4e4a9; /*bright pale yellow*/
+
+}
+
+#container{
+   position:absolute;
+   margin: 2%;
+   height: 90%;
+   width: 90%;
+}
+
+#sidebarL{
+   background-color: #903225;/*red*/
+   display:inline-block;
+   position: relative;
+   min-width: 15%;
+   max-width: 17%;
+   float: left;
+   height: 100%;
+   top: -7%;   
+   color:#f4e4a9; /*bright pale yellow*/
+}
+
+
+/*  HEADER */
+#TopHeaderContainer{
+   display:block;
+   position:relative;
+   width:83%;
+   margin-top:.7%;
+   margin-left: 17.5%;
+   z-index: 1;
+}
+#TopHeaderPadding{
+   padding-top:.2%;
+}
+#TopHeaderContent{
+   background-color:#993333;/* dark red*/
+   /*border: 1px solid #000000;*/
+   position:absolute;
+   top:0;
+   bottom:0;
+   left:0;
+   right:0;
+}
+/* END HEADER RULES*/
+
+#tagline{ /*this positions and styles the little 'tagline' or sorts at the top of the page*/
+   text-align: right;
+   position: relative;
+   top: -82%;
+   right: 1%;
+}
+
+/*this is making the list of links in the red sidebar have no inderline and also be centered, with the correct color and rounded borders on hovers */
+nav{
+  display: inline-block;
+  position:relative;
+  width: 95%;
+  color:#f5f2e6; /* pale, pale yellow */
+  z-index: 1;
+  text-align: center;
+  top: 2%;
+ 
+}
+a{
+  text-decoration: none;
+  color:#f5f2e6; /* pale, pale yellow */
+  font-size: .8em;
+  
+}
+a:link{
+}
+a:visited{
+}  
+a:hover{
+ /* color:#a45808;*/
+  right: 1%;
+  border: 1px solid #f5f2e6;/*This makes a nice border around the link.  Found here: http://www.w3schools.com/cssref/pr_border.asp*/
+  border-radius: 2em;/*this makes the border rounded.   Found here: http://www.w3schools.com/cssref/css3_pr_border-radius.asp */
+  padding: 1px 1px 1px 1px;
+  left: 5%;
+}
+a:active{
+}
+
+
+
+  /*In addition,  this little bit here is making sure my links that aren't parto f the general index are spaced a bit further down*/
+#otherContentLinks{
+   display: inline-block;
+   position: relative;
+   margin-top: 15%;
+}
+ul { 
+  list-style-type: none;
+  line-height: 1.1;
+}
+/*This is where link styling ends.*/
+
+p { /*styling all paragraphs to be pale yellow and not too large*/
+  color:#f5f2e6; /*pale, pale yellow*/
+  font-size: medium;
+  text-indent: 2em;
+} 
+
+.centralContentContainer{ /*this block contains both the central content and its padding */
+   display:inline-block;
+   position:relative;
+   width:78%;
+   margin-top:.7%;
+   margin-left: .5%;
+}
+
+.centralContentPadding{
+   padding: 1%;
+}
+
+/*this block holds all actual content of the page, such as text content, forms or something else interesting*/
+.centralContentBlock{
+   width: 90%;
+   position:relative;
+   /*left: 15%;*/
+}
+
+p.about{
+   color:#f5f2e6; /* pale, pale yellow */
+}
+
+p#tagline{
+   position:relative;
+   top:2%;
+   font-size: small;
+
+}
+h1{
+   font-family: 'Special Elite', cursive;
+   color:#f4e4a9; /*bright pale yellow*/
+   font-size: 2.2em;
+}
+
+h2{
+   font-family: 'Special Elite', cursive;
+   color:#f4e4a9; /*bright pale yellow*/
+   text-align:right;
+   position: relative;
+   left: -10%;
+   font-size: 1.7em;
+}
+#tagline > em{
+   font-style: italic;
+}
+
+#products{ /*Just a minor positioning tweak on the div that contains the dynamically generated table*/
+   padding: 5px;
+   /*float: right;*/
+}
+em{
+   /*font-style: italic;*/
+   color: #f4e4a9; /* bright, pale yellow */
+}
+
+p.story{
+   font-size: medium;
+}
+
+p.right{
+   text-align:right;
+}
+
+legend{ /*form title */
+   font-family: 'Special Elite', cursive;
+   font-size: 1.1em;
+   color:#f4e4a9; /*bright pale yellow*/
+   margin-bottom: 4px;
+ }
+ 
+ fieldset{ /* set a border around the form nd restrict the area the form takes up to something more aesthetically pleasing*/
+   max-width: 400px;
+   padding: 4px;
+   border: 1px solid #f4e4a9; /*bright pale yellow*/
+   text-align: right;
+   float: left;
+   margin: 10px;
+ }
+ 
+ /*found this bit that gives the cells borders here: http://www.w3schools.com/cssref/tryit.asp?filename=trycss_js_table-layout */
+ table, td{
+   border-collapse: collapse;
+ 	empty-cells: hide;
+   border: 2px solid #1e3d07;/*dark green*/
+   color: #f5f2e6; /*pale, pale yellow*/
+   font-size: 1.2em;
+   padding: 3px;
+   margin-top: 4px;
+   text-align: center;
+ 
+ 
+ }
+ 
+ td:first-child, tr:first-child{ /* color the index row and column dark green */
+   background-color: #1e3d07;/*dark green*/
+   empty-cells: hide;
+ }
+
+ .errMessage{ /*color and style the error messages for invalid input*/
+   color:  #43057d; /*Dark purple used for error messages, as bright red does not show up well on this particular background color.  I considred dark red, but felt it might blend too well with the red sidebar*/
+   font-style: italic;
+ }
+ #productTabs{
+ /*float: right;*/
+ }
+ /* these next two rules combine to make the tab links appear in a horizontal line, rather than a vertical list */
+ #productTabs li{
+ 
+ float: left;
+ 
+ }
+ #productTabs li a{
+   display: block;
+   width: 60px;
+ }
+ 
+ #productTabs li span{/* This positions the little x in the corner of each 'tab' for the tab's removal.*/
+   display: inline;
+   cursor: pointer; 
+   float: right;
+   position:relative;
+   top: -15px;
+   color:  #1e3d07;/*dark green*/
+   font-size: .7em;
+
+ }
+  #productTabs li span:hover{/* This colors the little x in the corner of each 'tab' putple on hover, as well as giving it a round circle border.*/
+   color:  #43057d;/*dark purple*/
+   border-radius: 1.2em;
+   border: 1px solid #43057d;
+   font-weight: bold;
+ }
+ #tabLinks{
+   margin: 5px;
+ 
+ }
+ #products div{/* this gives the tab content some breathing room away from the tabs themselves.*/
+   margin: 10px;
+   padding: 2px;
+
+ }
+ 
+ .active{
+ background-color:#1e3d07;/*this is meant to color the active 'tab's background to indicate that it is active*/
+ 
+ }
+ 

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="stylesheet" type="text/css" href="http://meyerweb.com/eric/tools/css/reset/reset.css"><!-- This CSS reset sheet was found here: http://meyerweb.com/eric/tools/css/reset/ -->
+      <link href='http://fonts.googleapis.com/css?family=Special+Elite' rel='stylesheet' type='text/css'><!--Font from Google font API--> 
+      <script src="//code.jquery.com/jquery-2.1.1.js"></script>
+    
+      <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"</script>
+      <script src="//tychelaughs.github.io/uziHomeworkPages/timesTable.js"></script>
+      <!-- the jQuery Validation Plugin is from http://jqueryvalidation.org/ -->
+      <script src="./scripts/jquery.validate.min.js"></script>
+      <script src="./scripts/additional-methods.min.js"></script>
+       
+
+  <!-- <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" /><!--jQuery UI style sheet-->
+   <link rel="stylesheet" type="text/css" href="./css/a03b.css"><!-- My style sheet for this assignment-->
+
+     <!-- 
+      File: index2.html
+      91.461 Assignment 8: JQuery Validation Plugin and jQueryUI Tabs Widget with Dynamic Tabs 
+      Susan 'Uzi' Souza, Undergraduate Computer Science Student at UMass Lowell: Susan_Souza@student.uml.edu
+      This assignment is meant to generate a multiplication table from input entered in a form in new tabs on a single page. These tabs should also be removable.
+      Original template created on September 22, 2014 at 3:24 PM by Uzi, as a redesign/blank slate using the box model after a 
+      number of attempts to improve a previous version.
+      Modified on October 21, 2014 to add form content.
+      Modified on October 23, 2014 to further tweak the new form content, add spans for error messages etc.
+      Modified on November 20, 2014 to restructure parts of the page for use with the tabs widget.
+     -->
+     <title>Assignment 8: Dynamic Tabs and JQuery Validation</title>
+   </head>
+
+   <body>
+      <div id="container"><!-- This is the outer container for content.  Doing it this way allows more control over the position of all elements on the page. -->
+         <header><!-- This is the header.  The title displayed in the page itself lives here, along with the little tagline-like bit of text -->
+            <h1 id="pageHeader">Assignment 8: Dynamic Tabs and JQuery Validation</h1>
+            <div id="TopHeaderContainer">
+               <div id="TopHeaderPadding"></div> <!-- This div helps positioning of its sibling divs--> 
+               <div id="TopHeaderContent"><!-- This is the inner container for the header.  It's actually creating that thin, red horizontal line. -->
+              
+               </div><!-- End TopHeaderContent div-->
+            </div><!-- End TopHeaderContainer div-->
+         </header><!-- End TopHeaderContainer -->
+         <div id ="sidebarL"><!-- This is that big, red bar on the left that contains all the links. -->
+            
+            <nav><!-- list of navigation links for the site -->
+               <ul id="assignmentIndex">
+                  <li><a href="//weblab.cs.uml.edu/~ssouza/assign02.html">Assignment 02</a></li>
+                  <li><a href="//weblab.cs.uml.edu/~ssouza/assign03a.html">Assignment 03</a></li>
+                  <li><a href="//tychelaughs.github.io/uziHomeworkPages">Assignment 04</a></li>
+                  <li><a href="//weblab.cs.uml.edu/~ssouza/assign05HostagesB.html">Assignment 05</a></li>
+                  <li><a href="//tychelaughs.github.io/uziHomeworkPages">Assignment 06</a></li>
+                  <li><a href="//tychelaughs.github.io/uziHomeworkPages/creatures.html#mwenin">Assignment 07</a></li>
+                  <li><a href="//tychelaughs.github.io/uziHomeworkPages/index2.html">Assignment 08</a></li>
+               </ul>
+            </nav>
+         </div><!-- End sidebar L div--> 
+         <div class="centralContentContainer"><!-- This is the outer container for content not found in the sidebar or he header.  Doing it this way allows more control over the position of all elements on the page. -->
+            <div class="centralContentPadding"></div> <!-- This div helps positioning of its sibling div--> 
+            <div class="centralContentBlock">
+               <form action="javascript:void(0)" id="fourFieldForm" name= "fourFieldForm">
+                  <fieldset id ="formBox" name ="formBox"><legend>Please enter starting and ending value ranges for a multiplication table</legend>
+                     <!-- Each of these label-input-span paragraphs are for form input fields; the spans are for the error messages if given invalid input. -->
+                     <p><label for="rowMin">First value lower bound(column): </label><input type="text" id="rowMin" name="rowMin" size = "5" tabindex= "1"/><span class="errMessage" id="in3Error"></span></p>
+                     <p><label for="rowMax">First value upper bound(column): </label><input type="text" id="rowMax" name="rowMax"size = "5" tabindex= "2"/><span class="errMessage" id="in4Error"></span></p>
+                     <p><label for="colMin">Second value lower bound(row): </label><input type="text" id="colMin" name="colMin"size = "5" tabindex= "3"/><span class="errMessage" id="in1Error"></span></p>
+                     <p><label for="colMax">Second value upper bound(row): </label><input type="text" id="colMax" name="colMax"size = "5" tabindex= "4"/><span class="errMessage" id="in2Error"></span></p>
+                    <p class="submit"><input type="submit" value="Submit" /></p> 
+                  </fieldset>
+               </form>
+                <div id="productTabs"><!--Tabs will be within this div, both the content and the link/tabs.-->
+                
+                  <ul id="tabLinks"><!--the 'tab' part of the tabs will go here, once tabs are created via the form.-->
+                     
+                  </ul>
+              
+                  <div id="products"><!-- div into which the tab content for the generaged multiplication table is to be dropped.-->
+                  <div id="products1"></div><!-- div into which the generated multiplication table is to be dropped.-->
+                  </div><!-- end products -->
+               </div><!-- end productTabs -->
+            </div><!--End centralcontentBlock div-->
+         </div><!--End centralContentContainer div-->
+      </div><!--End container div-->
+     <script src="./scripts/timesTable2.js"></script><!--script that hopefully works for single-page navigation-->
+   </body>
+</html>

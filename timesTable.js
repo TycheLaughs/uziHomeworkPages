@@ -4,17 +4,18 @@
 	This assignment is meant to generate a multiplication table from input entered in a form on a single page.
 	Created on October 21, 2014 by Uzi.
    Modified on October 23, 2014 to add checks for invalid input.
+   Modified on November 25, 2014 to correct an issue where two-digit numbers weere handles as strings and not numbers.
    */
 function tablegen(colMin, colMax, rowMin, rowMax){
    console.log("Actually managed to call the tablegen function");
    var stringOut = "<table>";
    var i ,k;
-   i = colMin;
-   k = rowMin;
-   for(i; i <= colMax; i++){
+   i = Number(colMin);
+   k = Number(rowMin);
+   for(i; i <= Number(colMax); i++){
       /* If we're about to print the first row of products, insert an empty 
       cell before we print first the range of the first factor*/
-      if(i===colMin){
+      if(i===Number(colMin)){
          stringOut +="<tr><td> </td>";
          console.log(stringOut + "Added that first space");
 
@@ -25,7 +26,7 @@ function tablegen(colMin, colMax, rowMin, rowMax){
          stringOut +="</tr>";
       }
       stringOut+= "<tr><td>" + i + "</td>";
-      for(var j = rowMin; j <= rowMax; j++){
+      for(var j = Number(rowMin); j <= Number(rowMax); j++){
          console.log(stringOut + "Adding the rest of the damn content");
 
          stringOut += "<td>" + (j*i) + "</td>";
