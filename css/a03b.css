@@ -264,15 +264,39 @@ legend{ /*form title */
    border: 3px solid #611ba3; /*Slightly brighter than the dark purple used for error messages*/
  }
  #productTabs{
-   /*float: right;*/
+ /*float: right;*/
  }
  #productTabs li{
-   float: left;
+ 
+ float: left;
  
  }
  #productTabs li a{
    display: block;
    width: 60px;
+ }
+  #productTabs li a:hover{
+   display: block;
+   width: 60px;
+   border: none;
+ }
+ 
+ 
+ #productTabs li span{/*style the x to remove tabs*/
+   display: inline;
+   cursor: pointer; 
+   float: right;
+   position:relative;
+   top: -10px;
+   color:  #6b934e;/*light green*/
+   font-size: .7em;
+
+ }
+  #productTabs li span:hover{/*circle the x to remove tabs on hover*/ 
+   color:  ##903225;;/*red*/
+   border-radius: 1em;
+   border: 1px solid #43057d;
+   font-weight: bold;
  }
  #tabLinks{
    margin: 5px;
@@ -281,6 +305,7 @@ legend{ /*form title */
  #products div{
    margin: 10px;
    padding: 2px;
+
  }
  
  .ui-state-active{/* to override whatever rule the tabs widget is trying to apply with my own for active tabs*/

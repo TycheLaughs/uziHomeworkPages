@@ -1,15 +1,11 @@
-	/*File: timesTable2.js
-	91.461 Assignment 8: JQuery Validation Plugin and jQueryUI Tabs Widget with Dynamic Tabs 
+	/*File: http://weblab.cs.uml.edu/~ssouza/css/A03a.css
+	91.461 Assignment 6: HTML forms and JavaScript
 	Susan 'Uzi' Souza, Undergraduate Computer Science Student at UMass Lowell, Susan_Souza@student.uml.edu
-	This assignment is meant to generate a multiplication table from input entered in a form in new tabs on a single page. These tabs should also be removable.
+	This assignment is meant to generate a multiplication table from input entered in a form on a single page.
 	Created on October 21, 2014 by Uzi.
    Modified on October 23, 2014 to add checks for invalid input.
    Modified on November 22, 2014 to change back to using the submit event, add tabs, use the Number() function, jQuery Validation
-   Modified on Noveber 24, 2014 to start using the jQuery validation plugin.
-   Modified on November 25, 2014 to add the jQuery UI tabs widget for the adding and removal of tabs.
    */
-   
-   /* This function generates a multiplication table, given input*/
 function tablegen(colMin, colMax, rowMin, rowMax, counter){
    console.log("Managed to call the tablegen function");
    
@@ -137,7 +133,7 @@ $(document).ready(function(){
    var tabslinks = $('#tabLinks');
    $('#productTabs').tabs();
    
-   /*The following two lines from Prof. Heines' tabs example on JSFiddle, found here:  http://jsfiddle.net/heines/q6w4d5rz/9/*/
+   /*The following from Prof. Heines' tabs exampel on JSFiddle, found here:  http://jsfiddle.net/heines/q6w4d5rz/9/*/
    // the div containing the complete tabs structure
   var tabsdiv = $("#productTabs") ;
   // the list of tabs
@@ -241,31 +237,32 @@ $(document).ready(function(){
       
       console.log("Entered value ranges:" + this.colMin.value + "-" + this.colMax.value + ", " + this.rowMin.value + "-" + this.rowMax.value);
          
-     // inputcheck(this.colMin.value, this.colMax.value, this.rowMin.value, this.rowMax.value);
-        //if(counter!== 1 /*&& counter === historyCounter*/){
-      tabslinks.append('<li><a href="#products' + counter + '">' + 'Table ' + counter + '</a><span class=\"ui-icon ui-icon-close\" role=\"presentation\">&nbsp;X&nbsp;</span></li>' ) ; 
-         
-      //}
-      counter = tablegen(this.colMin.value, this.colMax.value, this.rowMin.value, this.rowMax.value, counter);
-      console.log(counter);
-      console.log(historyCounter);
-
-      if(counter === historyCounter && historyCounter > 1){//meant to prevent duplicate tabs with incorrect contents from appearing
-         //tabsdiv.remove(tabsdiv.lastchild);
-         tabslinks.remove(tabslist.lastchild);
-      }
+        // inputcheck(this.colMin.value, this.colMax.value, this.rowMin.value, this.rowMax.value);
+           //if(counter!== 1 /*&& counter === historyCounter*/){
+            tabslinks.append('<li><a href="#products' + counter + '">' + 'Table ' + counter + '</a><span class=\"ui-icon ui-icon-close\" role=\"presentation\">&nbsp;X&nbsp;</span></li>' ) ; 
+            
+         //}
+         counter = tablegen(this.colMin.value, this.colMax.value, this.rowMin.value, this.rowMax.value, counter);
+         console.log(counter);
+         console.log(historyCounter);
+      
+         if(counter === historyCounter && historyCounter > 1){//meant to prevent duplicate tabs with incorrect contents from appearing
+            //tabsdiv.remove(tabsdiv.lastchild);
+           
+           tabslinks.remove(tabslist.lastchild);
+        }
         /*this from jQueryUI Demos: http://jqueryui.com/tabs/#manipulation  */
     // close icon: removing the tab on click
-      $("#productTabs").delegate( "span.ui-icon-close", "click", function() {
-         var panelId = $( this ).closest( "li" ).remove().attr( "aria-controls" );
-         $( "#" + panelId ).remove();
-         $("#productTabs").tabs( "refresh" );
-      });
-   /* end from jQueryUI Demos code */
+    $("#productTabs").delegate( "span.ui-icon-close", "click", function() {
+      var panelId = $( this ).closest( "li" ).remove().attr( "aria-controls" );
+      $( "#" + panelId ).remove();
+      $("#productTabs").tabs( "refresh" );
+    });
+/* end from jQueryUI Demos code */
          
          historyCounter = counter;
          
-      $("#productTabs").tabs( "refresh" ) ;  
+         $("#productTabs").tabs( "refresh" ) ;  
      
    });
 
