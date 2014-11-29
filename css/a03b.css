@@ -1,19 +1,19 @@
 
  /*
-	File: A03b.css
-	91.461 Assignment 8: JQuery Validation Plugin and jQueryUI Tabs Widget with Dynamic Tabs 
-   Susan 'Uzi' Souza, Undergraduate Computer Science Student at UMass Lowell: Susan_Souza@student.uml.edu
-   This assignment is meant to generate a multiplication table from input entered in a form in new tabs on a single page. These tabs should also be removable.
+	File: http://weblab.cs.uml.edu/~ssouza/css/A03a.css
+	91.461 Assignment 8
+	Susan 'Uzi' Souza, Undergraduate Computer Science Student at UMass Lowell, Susan_Souza@student.uml.edu
+	This assignment is meant to generate a multiplication table from input entered in a form on a single page.
 	Created on September 22, 2014 at 3:24 PM by Uzi, as a redesign/blank slate after a number of attempts to improve a previous version.
    Modified on September 23, 2014 at 11:32 AM by Uzi, to add some more hover properties to links. 
    Modified on September 23, 2014 at 7:34 PM by Uzi, to correct some positioning issues and add new rules for emphasis.
    Modified on October 23, 2014 to add some more comments and the rules to deal with the forms assignment; also I made a minor adjustment to the background color to hopefully improve readability of the text.
-   Modified on November 25, 2014 to add some styling to tab and error elements.
+   Modified on November 28, 2014 to properly style active tabs and error messages.
 */
 
 body{
-   background-color: #6b934e; /*#8ba975 #8fae77*/; /* light green*/
-   /*overflow: hidden;*/
+   background-color: #6b934e /*#8ba975 #8fae77*/; /* light green*/
+   overflow: hidden;
    font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
 }
 /* This holds the title printed on the actual page*/
@@ -69,6 +69,34 @@ body{
    right:0;
 }
 /* END HEADER RULES*/
+
+
+
+/* CORNER ICON/LOGO */
+#iconContainer{
+   display: inline-block;
+   position: relative;
+   width: 90%;
+   margin-left:5%;
+   margin-right: 5%;
+   margin-top:3%;
+}
+#iconPadding{
+   padding-top:90%;
+}
+#squareicon{
+   background-color:#993333; /* reddish */
+   position: absolute;
+   top: 0;
+   bottom: 0;
+   left: 0;
+   right: 0;
+   text-align:center;
+   border: 1px solid #000000; /* Black */
+}
+
+/*END CORNER ICON RULES*/
+
 
 #tagline{ /*this positions and styles the little 'tagline' or sorts at the top of the page*/
    text-align: right;
@@ -228,52 +256,36 @@ legend{ /*form title */
    empty-cells: hide;
  }
 
- .errMessage{ /*color and style the error messages for invalid input*/
-   color:  #43057d; /*Dark purple used for error messages, as bright red does not show up well on this particular background color.  I considred dark red, but felt it might blend too well with the red sidebar*/
+ label.error{ /*color and style the error messages for invalid input*/
+   color:  #43057d; /*Dark purple used for error messages, as bright red does not show up well on this particular background color.  I considred dark red, but felt it might blend too well with the presence of the red sidebar*/
    font-style: italic;
  }
- #productTabs{
- /*float: right;*/
+ input.error{
+   border: 3px solid #611ba3; /*Slightly brighter than the dark purple used for error messages*/
  }
- /* these next two rules combine to make the tab links appear in a horizontal line, rather than a vertical list */
+ #productTabs{
+   /*float: right;*/
+ }
  #productTabs li{
- 
- float: left;
+   float: left;
  
  }
  #productTabs li a{
    display: block;
    width: 60px;
  }
- 
- #productTabs li span{/* This positions the little x in the corner of each 'tab' for the tab's removal.*/
-   display: inline;
-   cursor: pointer; 
-   float: right;
-   position:relative;
-   top: -15px;
-   color:  #1e3d07;/*dark green*/
-   font-size: .7em;
-
- }
-  #productTabs li span:hover{/* This colors the little x in the corner of each 'tab' putple on hover, as well as giving it a round circle border.*/
-   color:  #43057d;/*dark purple*/
-   border-radius: 1.2em;
-   border: 1px solid #43057d;
-   font-weight: bold;
- }
  #tabLinks{
    margin: 5px;
  
  }
- #products div{/* this gives the tab content some breathing room away from the tabs themselves.*/
+ #products div{
    margin: 10px;
    padding: 2px;
-
  }
  
- .active{
- background-color:#1e3d07;/*this is meant to color the active 'tab's background to indicate that it is active*/
- 
+ .ui-state-active{/* to override whatever rule the tabs widget is trying to apply with my own for active tabs*/
+  background-color: #1e3d07;/*dark green*/
+  border: 1px solid #f5f2e6;/*pale yellow, rounded border*/
+  border-radius: 2em;/*rounded border*/
+  padding: 1px 1px 1px 1px;
  }
- 
