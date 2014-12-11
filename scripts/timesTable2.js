@@ -239,7 +239,8 @@ $(document).ready(function(){
          
         // inputcheck(this.colMin.value, this.colMax.value, this.rowMin.value, this.rowMax.value);
            //if(counter!== 1 /*&& counter === historyCounter*/){
-            tabslinks.append('<li><a href="#products' + counter + '">' + 'Table ' + counter + '</a><span class=\"ui-icon ui-icon-close\" role=\"presentation\">&nbsp;X&nbsp;</span></li>' ) ; 
+            tabslinks.append('<li><a href="#products' + counter + '">' + 'Table ' + counter + '</a><span class=\"ui-icon ui-icon-close\" role=\"presentation\">&nbsp;x&nbsp;</span></li>' ) ; 
+            //MAKE THIS TAB ACTIVE, like, SHOW THE DIV DAMNIT
             
          //}
          counter = tablegen(this.colMin.value, this.colMax.value, this.rowMin.value, this.rowMax.value, counter);
@@ -248,10 +249,10 @@ $(document).ready(function(){
       
          if(counter === historyCounter && historyCounter > 1){//meant to prevent duplicate tabs with incorrect contents from appearing
             //tabsdiv.remove(tabsdiv.lastchild);
-           
+           //THIS IS BUGGY, as if you have had more than one tab, removed some manually and then put in incorrect input, it deletes all the tabs or something... try to fix this...
            tabslinks.remove(tabslist.lastchild);
         }
-        /*this from jQueryUI Demos: http://jqueryui.com/tabs/#manipulation  */
+/*this from jQueryUI Demos: http://jqueryui.com/tabs/#manipulation  */
     // close icon: removing the tab on click
     $("#productTabs").delegate( "span.ui-icon-close", "click", function() {
       var panelId = $( this ).closest( "li" ).remove().attr( "aria-controls" );
