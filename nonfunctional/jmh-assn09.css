@@ -48,8 +48,7 @@ body, table {
 /* indicate that certain columns are clickable */
 #tblSubmissions thead tr th:nth-child(2),
 #tblSubmissions thead tr th:nth-child(3),
-#tblSubmissions thead tr th:nth-child(4), 
-#tblSubmissions thead tr th:nth-child(5) {
+#tblSubmissions thead tr th:nth-child(4){
   color: black ;
   background-color: lightgreen ;
 }
@@ -57,8 +56,8 @@ body, table {
 /* handle rollovers on clickable columns */
 #tblSubmissions thead tr th:nth-child(2):hover,
 #tblSubmissions thead tr th:nth-child(3):hover,
-#tblSubmissions thead tr th:nth-child(4):hover ,
-#tblSubmissions thead tr th:nth-child(5):hover{
+#tblSubmissions thead tr th:nth-child(4):hover 
+{
   cursor: pointer ;
   color: black ;
   background-color: yellow ;
