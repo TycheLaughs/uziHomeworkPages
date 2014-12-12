@@ -12,6 +12,7 @@
        and to optimistically add some radio buttons 
        Scrapped and recreated from scratch by Susan S. on December 11, 2014. 
        Column sort still does not appear to be working for me work as of 7:30 PM on December 11, 2014, and for some reason the 'unsafe' filter is also giving me trouble.
+       Edit 7:50 PM-- had misplaced ng-click directives for the sort.  That should work, now!
        -->
    
    <!-- get Angular-->
@@ -99,20 +100,20 @@
          <thead>
                <tr>
                   <th> </th>
-                  <th>Title</th>
-                  <th>Series</th>
-                  <th>No.</th>
+                  <th ng-click="sortColumn(2)">Title</th>
+                  <th ng-click="sortColumn(3)">Series</th>
+                  <th ng-click="sortColumn(4)">No.</th>
                   <th>Released</th>
                   <th>Synopsis</th>
                   <th>Buy</th>
                </tr>
             </thead>
             <tbody>
-               <tr ng-repeat ="book in books | filter:showWhat:strict"><!-- generates table cells for as many objects in the JSON array in the given file-->
+               <tr ng-repeat ="book in books | filter:showWhat:strict | orderBy:sortField"><!-- generates table cells for as many objects in the JSON array in the given file-->
                   <td>{{$index +1}}</td><!-- this incrementing of the index value was mentioned in class -->
-                  <td ng-click="sortColumn(2)">{{book.book_title}}</td>
-                  <td ng-click="sortColumn(3)">{{book.series_title}}</td>
-                  <td ng-click="sortColumn(4)">{{book.series_no}}</td>
+                  <td>{{book.book_title}}</td>
+                  <td>{{book.series_title}}</td>
+                  <td>{{book.series_no}}</td>
                   <td>{{book.first_released}}</td>
                   <!-- The following comment and code found in Prof Heines' starter code here: https://teaching.cs.uml.edu/~heines/91.461/91.461-2014-15f/461-assn/code/Assn09-Starter/jmh-assn09-v4.html
                   To interpret the HTML tags in the output, use the syntax below, explained at:
