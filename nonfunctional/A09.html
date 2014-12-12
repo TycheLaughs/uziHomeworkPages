@@ -1,196 +1,130 @@
-<!DOCTYPE html>
-<html ng-app="BooksApp">
-<head>
-  <meta charset="utf-8">
-<!--
-  File:  A09.html
-  Susan Souza, UMass Lowell Computer Science student, Susan_Souza@student.uml.edu
-  Modified December 8, 2014, to begin working with different JSON file than the one specified in original code
-  Modified December 10, 2014 to continue to attempt to get the data from the new file to be used 
-  and to unfortunately optimistically add some radio buttons 
-  
-  Nearly all of the code on this page is from Prof. Heines, and was found here:
-  https://teaching.cs.uml.edu/~heines/91.461/91.461-2014-15f/461-assn/code/Assn09-Starter/jmh-assn09-v4.html
-  Jesse M. Heines, UMass Lowell Computer Science, heines@cs.uml.edu
-  Copyright (c) 2014 by Jesse M. Heines.  All rights reserved.  May be freely 
-  copied or excerpted for educational purposes with credit to the author.
-  updated by JMH on December 2, 2014 at 2:47 PM
-  
-  Note the need to name the SubmissionsApp in the html ng-app attribute above
-  if we're going to use it in the angular.module function below.
--->
-  <title>Books Written by Jim Butcher</title>
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.27/angular.min.js"></script>
- 
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> 
-
-  
-  <!-- Prof. Heines' collection of utility functions -->
-  <script src="jmh-utilities.js"></script>
-  
-  <script>
-    "use strict" ;  // to ensure that all variables are declared before use
-
-    // the number of the last column sorted, initialized to the release date column
-    var lastSortColumnNo = 2 ;
-    // a flag indicating whether the last sort was ascending (true) or descending (false)
-    var lastSortDescending = false ;
-    
-    // set up AngularJS module, note that name must be the same as that in the 
-    //    ng-app attribute of the html tag above
-    var myApp = angular.module( 'BooksApp', [] ) ;
-    
-    // set a constant to the JSON file path
-    myApp.constant( "jsonUrl", "jButcher_books_all.json" ) ;
-    
-    // add business logic to the app controller
-    myApp.controller( "BooksCtrl", function( $scope, $http) {
-          // Read JSON data using Ajax - adapted from Pro AngularJS, p. 149.
-       /// @param $scope  the standard AngularJS model scope
-       //  @param $http   the built-in AngularJS http object containing the get function
-       ///
-        // Get the data in the file specified by jsonUrl.
-       
-          $scope.jsonData = {} ;              // initialize an object in the model's scope
-                                              
-          if ( typeof( $scope.jsonUrl ) !== "undefined" && $scope.jsonUrl !== "" ) {
-            
-            $http.get( $scope.jsonUrl )         // get the data via Ajax
-              .success( function( data ) {      // execute this function if the Ajax succeeds
-                $scope.jsonData.data = data ;
-                console.log("Got data here");                // set the model's jsonData.data property to the
-              } )                               //    data returned by the Ajax call
-              .error( function( error )  {      // execute this function if the Ajax fails
-                $scope.error = error ;
-                console.log("Encountered error in attempting getting JSON file using ajax.");                
-                // set the model's jsonData.error property to the
-              } ) ;                             //    error returned by the Ajax call
-  
-            //$http.get( "getFileCreationTime.php?filepath=" + jsonUrl );
+<!DOCTYPE HTML>
+<html ng-app="myApp">
+   <head>
+   <meta charset="utf-8">
+   <!--File: A09.html
+       Author: Susan Souza, Computer Science Student at UMass Lowell, Susan_souza@student.uml.edu
+       Assignment 9: Using AngularJS
+       This assignment is just to get started with Angular.
+       Original file created by Jesse M. Heines, UMass Lowell Computer Science, heines@cs.uml.edu; last updated by JMH on November 29, 2014 at 3:29 PM
+       Modified December 8, 2014, by Susan S. to begin working with different JSON file than the one specified in original code
+       Modified December 10, 2014 by Susan S.to continue to attempt to get the data from the new file to be used 
+       and to optimistically add some radio buttons 
+       Scrapped and recreated from scratch by Susan S. on December 11, 2014. 
+       Column sort still does not appear to be working for me work as of 7:30 PM on December 11, 2014.
+       -->
+   
+   <!-- get Angular-->
+   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.27/angular.min.js"></script>
+    <!-- Prof. Heines' collection of utility functions -->
+   <script src="jmh-utilities.js"></script>
+   <!-- Prof. Heines' filter functions for this app -->
+   <script src="jmh-assn09-filters.js"></script>
+   <title>Books Written by Jim Butcher</title>
+   <script>
+   "use strict"
+      // the number of the last column sorted, initialized to the Student Name column
+      var lastSortColumnNo = 2 ;
+      // a flag indicating whether the last sort was ascending (true) or descending (false)
+      var lastSortDescending = false ;
+      var myApp = angular.module("myApp", []);
+         myApp.controller("BooksCtrl", function($scope, $http){
+            $http.get("jButcher_books_all.json").success(function(data){
+               $scope.books = data.BOOKS; //assign the array of objects called BOOKS in the json file to a variable named books
+                $scope.date = new Date() //get today's date
+            });
+                    // set the initial sort field (student name) and sort order (ascending)
+           $scope.sortField = "student_name" ;
+           $scope.sortDescending = false ;
+           $scope.showIt = "all";
           
-          }
-        $scope.date = new Date() ;          // get the current date and time
-          // see http://stackoverflow.com/questions/22962468/angularjs-display-current-date
-        
-        // set the initial sort field (student name) and sort order (ascending)
-        $scope.sortField = "release_order" ;
-        $scope.sortDescending = false ;
-        
-        /** 
-         *  Sort column clicked in either ascending or descending order.
-         *  Note that this could also be accomplished using the built-in AngularJS orderBy
-         *    filter and manipulating the sort field and reverse parameters.
-         *  Also note that this code could also have been incorporated into the ng-click 
-         *    directives on the table's th elements, but doing it here gave me more central
-         *    control, and I think that this function makes what's going on clearer and 
-         *    therefore easier to maintain.
-         *  @param colNo the number of the column header clicked
-         */
-        $scope.sortColumn = function( colNo ) {
-          $scope.sortDescending = lastSortColumnNo === colNo && ! lastSortDescending ;
-              // true to sort in descending order, false to sort in ascending order
-              // will be false if sorting a new column or last sort was descending
-           if ( colNo === 2 ) {
-            // this is the Title column
-            $scope.sortField = "book_title" ;
-          } 
-          else if ( colNo === 3 ) {
-            $scope.sortField = "series_title" ;//this is the series title column
-          } 
-          else if ( colNo === 4 ) {
-            $scope.sortField = "series_number" ;//this is the book in series column
-          } 
-          // save the sort paramesters for the next click
-          lastSortDescending = $scope.sortDescending ;
-          lastSortColumnNo = colNo ;
-        } ;
+           /** This function from Prof Heines, found here: 
+            * https://teaching.cs.uml.edu/~heines/91.461/91.461-2014-15f/461-assn/code/Assn09-Starter/jmh-assn09-v4.html
+            *  Sort column clicked in either ascending or descending order.
+            *  Note that this could also be accomplished using the built-in AngularJS orderBy
+            *    filter and manipulating the sort field and reverse parameters.
+            *  Also note that this code could also have been incorporated into the ng-click 
+            *    directives on the table's th elements, but doing it here gave me more central
+            *    control, and I think that this function makes what's going on clearer and 
+            *    therefore easier to maintain.
+            *  @param colNo the number of the column header clicked
+            */
+           $scope.sortColumn = function( colNo ) {
+             $scope.sortDescending = lastSortColumnNo === colNo && ! lastSortDescending ;
+                 // true to sort in descending order, false to sort in ascending order
+                 // will be false if sorting a new column or last sort was descending
+             if ( colNo === 2 ) {
+               // this is the Title column
+               $scope.sortField = "book_title" ;
+              
+             } else if ( colNo === 3 ) {
+               $scope.sortField = "series_title" ;//this is the Series column
+             } else if ( colNo === 4 ) {
+               // this is the No. column
+               $scope.sortField = "series_no" ;
+               // the following statement was used in a previous version of this app
+               // before adding the orderBy filter to the ng-repeat directive
+               //    $scope.jsonData.data.RECORDS.sort( sort_by( "millisecs", boolSortAscending ) ) ;
+             }
+             // save the sort paramesters for the next click
+             lastSortDescending = $scope.sortDescending ;
+             lastSortColumnNo = colNo ;
+           }
+           
+         });
 
-      }
-    ) ;
-  </script>
- 
-
-  <!-- filter functions for this app -->
-  <script src="jmh-assn09-filters.js"></script>
-  
-  <!-- CSS for this app -->
+   </script>
+  <!-- Prof. Heines' CSS for this app -->
   <link type="text/css" rel="stylesheet" href="jmh-assn09.css">
-</head>
-
-<body>
-  <!-- the main view, controlled by AngularJS -->
-  <div id="controllerDiv" ng-controller="BooksCtrl">
+   </head>
+   <body>
+      <div ng-controller="BooksCtrl">
+         <h2 id="maintitle">Books Written by Jim Butcher</h2>
+         <p>All information found either <a href="http://en.wikipedia.org/wiki/Jim_Butcher#Bibliography">here</a> or <a href="http://www.jim-butcher.com/books">here</a>.</p>
+         <p id ="bookCount">{{books.length}} books published and released as of {{date | date:"MMMM d, yyyy"}}.<!-- display today's date-->
+         </p><!--end bookCount paragraph-->
+         <p><em>Show:&nbsp;</em><!-- these are meant to be used to filter the data in the table by series name -->
+         <form>
+         <input  type ="radio" ng-model= "showWhat" id = "all" name = "series"  checked = "checked" >All</input>
+         <input type ="radio" ng-model= "showWhat" id = "dresden" name = "series" value = "dresden">The Dresden Files</input>
+         <input type ="radio" ng-model= "showWhat" id = "codex" name = "series" value="codex">Codex Alera</input>
+         <input type ="radio" ng-model= "showWhat" id = "other" name = "series" value="{none}">Other</input>
+        </form>
+         </p>
     
-    <!-- page head and version information -->
-    <h2 id="maintitle">Books Written by Jim Butcher</h2>
-    <!--<p>Program Version 5.0, updated December 2, 2014 at 4:01 PM</p>-->
-    
-    <!-- file selection drop-down list -->
-    <p><em>Show:&nbsp;</em><!-- these are meant to be used to filter the data in the table by series name and hide the ones that aren't part of whichever radio button is selected-->
-    <input type ="radio" id = "all" name = "all" checked = "checked" >All
-    <input type ="radio" id = "dresden" name = "dresden">The Dresden Files
-    <input type ="radio" id = "codex" name = "codex">Codex Alera
-    <input type ="radio" id = "other" name = "other">Other
-     
-    </p>
-    
-    <!-- table directions -->
-    <p><em>Click either green header row cell to sort the list.</em></p>
+         <!-- table directions -->
+         <p><em>Click either green header row cell to sort the list.</em></p>
   
-    <!-- 
-      show number of records in the JSON data
-        http://stackoverflow.com/questions/19956074/how-can-i-show-a-count-of-rows-from-an-ng-repeat
-      show date and time
-        http://stackoverflow.com/questions/22962468/angularjs-display-current-date
-        https://docs.angularjs.org/api/ng/filter/date 
-    -->
-    <p>
-      {{(jsonData.data.BOOKS).length}} books published and released as of {{date | date:"MMMM d, yyyy"}}.<!-- display today's date-->
-      <!--{{dataFileCreationDate | date:"MMMM d, yyyy"}} at {{dataFileCreationDate | date:"h:mm a"}}-->
-    </p>
-    
-    <!-- the table controlled by the AngularJS controller -->
-    <table id="tblSubmissions">
-      <!-- the column heads -->
-      <thead>
-        <tr>
-          <th>#</th>
-          <th ng-click="sortColumn(2)">Title</th>
-          <th ng-click="sortColumn(3)">Series</th>
-          <th ng-click="sortColumn(4)">Book in<br>Series</th>
-          <th>Purchase</th>
-          <th>Synopsis</th>
-        </tr>
-      </thead>
-      <!-- 
-        AngularJS template for each row of the table 
-        the ng-model attribute causes the data to be re-rendered when the jsonData changes
-      -->
-      <tbody ng-model="jsonData">
-        <tr ng-repeat="oneBook in jsonData.data.BOOKS | orderBy : sortField : sortDescending">
-          
-          <!-- the built-in AngularJS loop index -->
-          <td>{{$index | increment}}</td>
-          <!-- the student's first and last names only, in LastName, FirstName format -->
-          <td>{{oneBook.book_title}}</td>
-          <td>{{oneBook.series}}</td>
-          <td>{{oneBook.series_number}}</td>
-          
-
-          <!-- MAKING THE SUBMITTED URL A LIVE, CLICKABLE LINK -->
-          <td><a href="{{oneBook.url}}" target="_blank">URL</a></td>
-          
-          <!-- FORMATTING STUDENT COMMENTS AS TRUE HTML -->
-          <!-- 
-            The following statement outputs HTML without interpretation:
-              <td>{{oneSubmit.comments}}</td> 
-            To interpret the HTML tags in the output, use the syntax below, explained at:
-              http://creative-punch.net/2014/04/preserve-html-text-output-angularjs/
-          -->
-          <td ng-bind-html="oneBook.synopsis | unsafe"></td>
-        </tr>
-      </tbody>
-    </table>
-  </div><!--end controllerDiv-->
-</body>
+         <table id="tblSubmissions">
+         <thead>
+               <tr>
+                  <th> </th>
+                  <th>Title</th>
+                  <th>Series</th>
+                  <th>No.</th>
+                  <th>Released</th>
+                  <th>Synopsis</th>
+                  <th>Buy</th>
+               </tr>
+            </thead>
+            <tbody>
+               <tr ng-repeat ="book in books | filter:showWhat:strict"><!-- generates table cells for as many objects in the JSON array in the given file-->
+                  <td>{{$index +1}}</td><!-- this incrementing of the index value was mentioned in class -->
+                  <td ng-click="sortColumn(2)">{{book.book_title}}</td>
+                  <td ng-click="sortColumn(3)">{{book.series_title}}</td>
+                  <td ng-click="sortColumn(4)">{{book.series_no}}</td>
+                  <td>{{book.first_released}}</td>
+                  <!-- The following comment and code found in Prof Heines' starter code here: https://teaching.cs.uml.edu/~heines/91.461/91.461-2014-15f/461-assn/code/Assn09-Starter/jmh-assn09-v4.html
+                  To interpret the HTML tags in the output, use the syntax below, explained at:
+                  http://creative-punch.net/2014/04/preserve-html-text-output-angularjs/
+                  -->
+                  <td ng-bind-html="book.synopsis | unsafe"></td>
+                  <!-- Makes the URL stored in the data file a clickable link. From Prof. Heines: https://teaching.cs.uml.edu/~heines/91.461/91.461-2014-15f/461-assn/code/Assn09-Starter/jmh-assn09-v4.html
+                  Jesse M. Heines, UMass Lowell Computer Science, heines@cs.uml.edu -->
+                <td><a href="{{book.buy_url}}" target="_blank">{{book.book_title}}</a></td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+   </body>
 </html>
