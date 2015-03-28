@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html>
+   <head>
+   <meta charset="utf-8">
+   
+   <!-- various canvas references:
+   http://simonsarris.com/blog/510-making-html5-canvas-useful
+   http://www.williammalone.com/articles/create-html5-canvas-javascript-drawing-app/#demo-simple
+   http://www.w3schools.com/html/html5_canvas.asp
+   -->
+   </head>
+   <body>
+   <div style="width:800px">
+   <canvas id="hw01" width="500" height="400" style="border: 1px solid #000; margin:5px; display:inline-block"></canvas>
+  <div style="display:inline-block; position:relative;top:-145px"> <ul>
+      <li id="circleButton" style="list-style-type:none"><span style="border: 1px solid #000; border-radius:9px; line-height: 1.8; padding:2px"onclick="circle()" >Draw Circle!</span></li>
+      <li id="lineButton"style="list-style-type:none"><span style="border: 1px solid #000; border-radius:9px; line-height: 1.8;  padding:2px" onclick="line()">Draw Line!<span></li>
+      <li id="polyButton" style="list-style-type:none"><span style="border: 1px solid #000; border-radius:9px; line-height: 1.8;  padding:2px" onclick="polygon()">Draw Polygon!<span></li>
+      <li id="rectButton" style="list-style-type:none"><span style="border: 1px solid #000; border-radius:9px; line-height: 1.8;  padding:2px" onclick="rectangle()">Draw Rectangle!<span></li>
+      <li id="ellipseButton" style="list-style-type:none"><span style="border: 1px solid #000; border-radius:9px;  line-height: 1.8; padding:2px" onclick="ellipse()">Draw Ellipse!<span></li>
+      <li id="polylineButton" style="list-style-type:none"><span style="border: 1px solid #000; border-radius:9px; line-height: 1.8; padding:2px" onclick="polyline()">Draw Polyline!<span></li>
+      <li id="clearButton" style="list-style-type:none"><span style="border: 1px solid #000; border-radius:9px; line-height: 1.8; padding:2px" onclick="clearCanv()">Clear Canvas<span></li>
+   </ul>
+   
+
+   </div>
+   <div id="promptDiv"></div>Colors: 
+      <input type="radio" name="fillVal" value="black"checked>black
+      <input type="radio" name="fillVal" value="purple">purple
+      <input type="radio" name="fillVal" value="red" >red
+      <input type="radio" name="fillVal" value="green">green
+      <input type="radio" name="fillVal" value="blue">blue
+      <input type="radio" name="fillVal" value="yellow">yellow
+      <input type="radio" name="fillVal" value="orange">orange
+      <br><br>
+      Line Thickness:
+      <input type="radio" name="strokeVal" value="1"checked onchange="changeweight()">normal/default
+      <input type="radio" name="strokeVal" value="3"  onchange="changeweight()">thick
+      <input type="radio" name="strokeVal" value="5" onchange="changeweight()">thicker
+      <input type="radio" name="strokeVal" value="9" onchange="changeweight()">very thick
+
+   </div>
+   <script>   
+ 
+   var radioColors = document.getElementsByName('fillVal');
+   var radioStroke = document.getElementsByName('strokeVal');
+   var canv = document.getElementById("hw01");
+   var context = canv.getContext("2d");
+   /* Register and store clicks for coordinates. Reference:
+    http://www.williammalone.com/articles/create-html5-canvas-javascript-drawing-app/#demo-simple
+    */
+   var xPoints = [];
+   var yPoints = [];
+   var color = "black";
+   var weight = 1;
+   xPoints.length = 0;
+   yPoints.length = 0;
+   canv.addEventListener('click', function (e) {
+      var mouseX = Number(e.pageX - this.offsetLeft);
+      var mouseY = Number(e.pageY - this.offsetTop);
+      console.log(mouseX + ", " + mouseY);
+      this.interval = 25;
+      saveClick(mouseX, mouseY);
+      console.log(xPoints.length);
+   });
+   function changecolors (){
+         color = "black";
+         for (var i = 0, length = radioColors.length; i < length; i++) {
+            if (radioColors[i].checked) {
+               color = radioColors[i].value;
+               context.strokeStyle = color; 
+           // only one radio can be logically checked, don't check the rest
+            break;
+            }
+         }
+      }; 
+   var clearCanv = function(){
+      context.clearRect(0, 0, canv.width, canv.height);
+      clearCoords();
+   };
+   var changeweight = function(){
+      for (var i = 0, length = radioStroke.length; i < length; i++) {
+         if (radioStroke[i].checked) {
+            weight = radioStroke[i].value;
+            context.lineWidth = weight;
+          break;
+         }
+         
+      }
+         
+   };
+   function saveClick(x, y) {
+      context.beginPath();
+      context.moveTo(x, y);
+      context.lineTo(x+1, y);
+      context.stroke();
+      xPoints.push(x);
+      yPoints.push(y);
+   }
+   ;
+   function clearCoords() {
+       console.log('clearing coordinates');
+       var i = 0;
+       var n = xPoints.length;
+       while (i < n) {
+           xPoints.pop();
+           yPoints.pop();
+           i++;
+       }
+   }
+   ;
+   function shiftCoords() {
+      console.log('shifting coordinates');
+      if (xPoints.length >= 2) {
+         xPoints.splice(0, 1);
+         yPoints.splice(0, 1);
+         //console.log('new x0, y0: ' + xPoints[0] + ',' + yPoints[0]);
+      }
+   };
+   var line = function () {
+     console.log('line');
+      var actY;
+      var d = '';
+      var xDistTotal;
+      var yDistTotal;
+      var SE = false;
+      var NE = false;
+      var SW = false;
+      var NW = false;
+      var alt = false;
+      var prompter = document.getElementById("promptDiv");
+      prompter.innerHTML = "Please click on the canvas to select the starting point of the line segment, then the ending point.  Finally, click the 'Draw Line' button again to draw your line!";
+      if (xPoints.length >= 2) {
+      context.beginPath();
+      changecolors();
+      context.strokeStyle = color;
+            currX = xPoints[0];
+            currY = yPoints[0];
+            actY = yPoints[0];
+            actX = xPoints[0];
+            xDistTotal = xPoints[1] - xPoints[0];
+            yDistTotal = yPoints[1] - yPoints[0];
+            d = yDistTotal / xDistTotal;
+            if(Math.abs(d)> 1){
+              alt = true;
+              //console.log('using alt');
+            }
+            //console.log('d: ' + d);
+
+            if (xDistTotal > 0 && d >= 0 && yPoints[0] < yPoints[1]) {
+               SE = true;
+            }
+            else if (xDistTotal > 0 && d <= 0) {
+               NE = true;
+            }
+            else if (xDistTotal < 0 && d <= 0 && yPoints[0] < yPoints[1]) {
+               SW = true;
+               NE = true;
+            }
+            else {//xDistTotal< 0 && d >= 0
+               NW = true;
+               SE = true;
+            }
+
+            context.moveTo(xPoints[0], yPoints[0]);
+            if(yPoints[1] === yPoints[0]){ //handle vertical lines
+               context.lineTo(xPoints[1], yPoints[1]);
+               clearCoords();
+               NW = false;
+               SE = false;
+               SW = false;
+               NE = false;
+            }
+            if(alt){
+            d = xDistTotal/yDistTotal;
+               if (SE) {
+                   if (NW) {
+                       //console.log("NW");
+                       while (currY >= yPoints[1]) {
+                           currY--;
+                           actX -= d;
+                           // //console.log(xPoints[1] + "is supposed to be the end x coordinate. Current X: "+ currX);
+                           if (currY > yPoints[1]) {
+                              if ((actX) <= (currX - .5)) {
+                                 currX--;
+                                 context.lineTo(currX, currY);
+                                 ////console.log('Y? ' + (actY) + 'choice: '+ currX + "," +currY);
+                              }
+                              else{//if ((actX) > (currX - .5)) {
+                                   context.lineTo(currX, currY);
+                                   ////console.log('Y? ' + (actY) + 'choice: ' + currX + "," + currY);
+                              } //  
+                              
+                           }
+                           context.stroke();
+                       }
+                       clearCoords();
+                   }
+                   else {
+                       //console.log("SE");
+                       while (currY <= yPoints[1]) {
+                           currY++;
+                           actX += d;
+
+                           if ((actX) <= (currX + .5)) {
+                               context.lineTo(currX, currY);
+                               // //console.log('Y? ' + (actY) + 'choice: '+ currX + "," +currY);
+                           }
+
+                           else if ((actX) > (currX + .5)) {
+                               currX++;
+                               context.lineTo(currX, currY);
+                               // //console.log('Y? ' + (actY) + 'choice: '+ currX + "," +currY);
+                           }
+                           changecolors(); 
+                           
+                           context.stroke();
+                       }
+                       clearCoords();
+                   }
+
+               }
+               else /*if(NE)*/ {
+                   if (SW) {
+                       //console.log("SW");
+                       while (currY <=yPoints[1]) {
+                           currY++;
+                           actX += d;
+                           if ((actX) < (currX - .5)) {
+                               currX--;
+                               context.lineTo(currX, currY);
+                               // //console.log('Y? ' + (actY) + 'choice: '+ currX + "," +currY);
+                           }
+
+                           else{// if ((actX) < (currX - .5)) {
+                               context.lineTo(currX, currY);
+                               ////console.log('Y? ' + (actY) + 'choice: '+ currX + "," +currY);
+                           }
+                           changecolors(); 
+                           
+                           context.stroke();
+                       }
+                       clearCoords();
+                   }
+                   else {
+                       //console.log("NE");
+                       while (currY >= yPoints[1] && currX <= xPoints[1]) {
+                           currY--;
+                           actX -= d;
+                           if ((actX) > (currX + .5)) {
+                               currX ++;
+                               context.lineTo(currX, currY);
+                               ////console.log('Y? ' + (actY) + 'choice: '+ currX + "," +currY);
+                           }
+                           else{//if((actX) <= (currX - .5)) {
+                               context.lineTo(currX, currY);
+                               ////console.log('Y? ' + (actY) + 'choice: '+ currX + "," +currY);
+                           }
+                           changecolors(); 
+                           
+                           context.stroke();
+                       }
+                       clearCoords();
+                   }
+               }
+            }
+            else{
+               if (SE) {
+                   if (NW) {
+                       //console.log("NW");
+                       while (currX >= xPoints[1]) {
+                           currX--;
+                           actY -= d;
+                           // //console.log(xPoints[1] + "is supposed to be the end x coordinate. Current X: "+ currX);
+                           if (currX > xPoints[1]) {
+                               if ((actY) > (currY - .5)) {
+                                   context.lineTo(currX, currY);
+                                   //console.log('Y? ' + (actY) + 'choice: ' + currX + "," + currY);
+                               } //  
+                               else if ((actY) <= (currY - .5)) {
+                                   currY--;
+                                   context.lineTo(currX, currY);
+                                   ////console.log('Y? ' + (actY) + 'choice: '+ currX + "," +currY);
+                               }
+                           }
+                           changecolors(); 
+                           
+                           context.stroke();
+                       }
+                       clearCoords();
+                   }
+                   else {
+                       //console.log("SE");
+                       while (currX <= xPoints[1]) {
+                           currX++;
+                           actY += d;
+
+                           if ((actY) <= (currY + .5)) {
+                               context.lineTo(currX, currY);
+                               // //console.log('Y? ' + (actY) + 'choice: '+ currX + "," +currY);
+                           }
+
+                           else if ((actY) > (currY + .5)) {
+                               currY++;
+                               context.lineTo(currX, currY);
+                               // //console.log('Y? ' + (actY) + 'choice: '+ currX + "," +currY);
+                           }
+                           changecolors(); 
+                           
+                           context.stroke();
+                       }
+                       clearCoords();
+                   }
+               }
+               else /*if(NE)*/ {
+
+
+                   if (SW) {
+                       //console.log("SW");
+                       while (currX >= xPoints[1]) {
+                           currX--;
+                           actY -= d;
+                           if ((actY) >= (currY + .5)) {
+                               currY++;
+                               context.lineTo(currX, currY);
+                               // //console.log('Y? ' + (actY) + 'choice: '+ currX + "," +currY);
+                           }
+
+                           else if ((actY) < (currY - .5)) {
+
+                               context.lineTo(currX, currY);
+                               ////console.log('Y? ' + (actY) + 'choice: '+ currX + "," +currY);
+                           }
+                           changecolors(); 
+                           
+                           context.stroke();
+                       }
+                       clearCoords();
+                   }
+                   else {
+                       //console.log("NE");
+                       while (currX <= xPoints[1]) {
+                           currX++;
+                           actY += d;
+                           if ((actY) > (currY - .5)) {
+
+                               context.lineTo(currX, currY);
+                               ////console.log('Y? ' + (actY) + 'choice: '+ currX + "," +currY);
+                           }
+
+                           else if ((actY) <= (currY - .5)) {
+                               currY -= 1;
+                               context.lineTo(currX, currY);
+                               ////console.log('Y? ' + (actY) + 'choice: '+ currX + "," +currY);
+                           }
+                           changecolors(); 
+                           
+                           context.stroke();
+                       }
+                       clearCoords();
+                   }
+               }
+            }
+            clearCoords();
+        }
+    };
+   var polyline = function () {
+      console.log('polyLine');
+      var prompter = document.getElementById("promptDiv");
+      prompter.innerHTML = "Please click on the canvas to select the starting point and ending point of each segment of your polyline, then click the 'Draw Polyline' button again to draw it!";
+      
+      while ((xPoints.length)>1) {
+      var actY;
+      var d = '';
+      var xDistTotal;
+      var yDistTotal;
+      var SE = false;
+      var NE = false;
+      var SW = false;
+      var NW = false;
+      var alt = false;
+      if (xPoints.length >= 2) {
+      
+            currX = xPoints[0];
+            currY = yPoints[0];
+            actY = yPoints[0];
+            actX = xPoints[0];
+            xDistTotal = xPoints[1] - xPoints[0];
+            yDistTotal = yPoints[1] - yPoints[0];
+            d = yDistTotal / xDistTotal;
+            if(Math.abs(d)> 1){
+              alt = true;
+              //console.log('using alt');
+            }
+            //console.log('d: ' + d);
+
+            if (xDistTotal > 0 && d >= 0 && yPoints[0] < yPoints[1]) {
+               SE = true;
+            }
+            else if (xDistTotal > 0 && d <= 0) {
+               NE = true;
+            }
+            else if (xDistTotal < 0 && d <= 0 && yPoints[0] < yPoints[1]) {
+               SW = true;
+               NE = true;
+            }
+            else {//xDistTotal< 0 && d >= 0
+               NW = true;
+               SE = true;
+            }
+            context.beginPath();
+            context.moveTo(xPoints[0], yPoints[0]);
+            if(yPoints[1] === yPoints[0]){ //handle vertical lines
+               context.lineTo(xPoints[1], yPoints[1]);
+               clearCoords();
+               NW = false;
+               SE = false;
+               SW = false;
+               NE = false;
+            }
+            if(alt){
+            d = xDistTotal/yDistTotal;
+               if (SE) {
+                   if (NW) {
+                       //console.log("NW");
+                       while (currY >= yPoints[1]) {
+                           currY--;
+                           actX -= d;
+                           // //console.log(xPoints[1] + "is supposed to be the end x coordinate. Current X: "+ currX);
+                           if (currY > yPoints[1]) {
+                              if ((actX) <= (currX - .5)) {
+                                 currX--;
+                                 context.lineTo(currX, currY);
+                                 ////console.log('Y? ' + (actY) + 'choice: '+ currX + "," +currY);
+                              }
+                              else{//if ((actX) > (currX - .5)) {
+                                   context.lineTo(currX, currY);
+                                   ////console.log('Y? ' + (actY) + 'choice: ' + currX + "," + currY);
+                              } //  
+                              
+                           }
+                           changecolors(); 
+                           
+                           context.stroke();
+                       }
+                     shiftCoords();
+                   }
+                   else {
+                        //console.log("SE");
+                        while (currY <= yPoints[1]) {
+                           currY++;
+                           actX += d;
+
+                           if ((actX) <= (currX + .5)) {
+                               context.lineTo(currX, currY);
+                               // //console.log('Y? ' + (actY) + 'choice: '+ currX + "," +currY);
+                           }
+
+                           else if ((actX) > (currX + .5)) {
+                               currX++;
+                               context.lineTo(currX, currY);
+                               // //console.log('Y? ' + (actY) + 'choice: '+ currX + "," +currY);
+                           }
+                           changecolors(); 
+                           
+                           context.stroke();
+                        }
+                     shiftCoords(); 
+                  }
+
+               }
+               else /*if(NE)*/ {
+                   if (SW) {
+                       //console.log("SW");
+                       while (currY <=yPoints[1]) {
+                           currY++;
+                           actX += d;
+                           if ((actX) < (currX - .5)) {
+                               currX--;
+                               context.lineTo(currX, currY);
+                               // //console.log('Y? ' + (actY) + 'choice: '+ currX + "," +currY);
+                           }
+
+                           else{// if ((actX) < (currX - .5)) {
+                               context.lineTo(currX, currY);
+                               ////console.log('Y? ' + (actY) + 'choice: '+ currX + "," +currY);
+                           }
+                           changecolors(); 
+                           
+                           context.stroke();
+                       }
+                     shiftCoords();
+                   }
+                   else {
+                       //console.log("NE");
+                       while (currY >= yPoints[1] && currX <= xPoints[1]) {
+                           currY--;
+                           actX -= d;
+                           if ((actX) > (currX + .5)) {
+                               currX ++;
+                               context.lineTo(currX, currY);
+                               ////console.log('Y? ' + (actY) + 'choice: '+ currX + "," +currY);
+                           }
+                           else{//if((actX) <= (currX - .5)) {
+                               context.lineTo(currX, currY);
+                               ////console.log('Y? ' + (actY) + 'choice: '+ currX + "," +currY);
+                           }
+                           changecolors(); 
+                           
+                           context.stroke();
+                       }
+                     shiftCoords();
+                   }
+               }
+            }
+            else{
+               if (SE) {
+                   if (NW) {
+                       //console.log("NW");
+                       while (currX >= xPoints[1]) {
+                           currX--;
+                           actY -= d;
+                           // //console.log(xPoints[1] + "is supposed to be the end x coordinate. Current X: "+ currX);
+                           if (currX > xPoints[1]) {
+                               if ((actY) > (currY - .5)) {
+                                   context.lineTo(currX, currY);
+                                   //console.log('Y? ' + (actY) + 'choice: ' + currX + "," + currY);
+                               } //  
+                               else if ((actY) <= (currY - .5)) {
+                                   currY--;
+                                   context.lineTo(currX, currY);
+                                   ////console.log('Y? ' + (actY) + 'choice: '+ currX + "," +currY);
+                               }
+                           }
+                           changecolors(); 
+                           
+                           context.stroke();
+                       }
+                     shiftCoords();
+                   }
+                   else {
+                       //console.log("SE");
+                       while (currX <= xPoints[1]) {
+                           currX++;
+                           actY += d;
+
+                           if ((actY) <= (currY + .5)) {
+                               context.lineTo(currX, currY);
+                               // //console.log('Y? ' + (actY) + 'choice: '+ currX + "," +currY);
+                           }
+
+                           else if ((actY) > (currY + .5)) {
+                               currY++;
+                               context.lineTo(currX, currY);
+                               // //console.log('Y? ' + (actY) + 'choice: '+ currX + "," +currY);
+                           }
+                           changecolors(); 
+                           
+                           context.stroke();
+                       }
+                     shiftCoords(); 
+                  }
+               }
+               else /*if(NE)*/ {
+
+
+                   if (SW) {
+                       //console.log("SW");
+                       while (currX >= xPoints[1]) {
+                           currX--;
+                           actY -= d;
+                           if ((actY) >= (currY + .5)) {
+                               currY++;
+                               context.lineTo(currX, currY);
+                               // //console.log('Y? ' + (actY) + 'choice: '+ currX + "," +currY);
+                           }
+
+                           else if ((actY) < (currY - .5)) {
+
+                               context.lineTo(currX, currY);
+                               ////console.log('Y? ' + (actY) + 'choice: '+ currX + "," +currY);
+                           }
+                           changecolors(); 
+                           
+                           context.stroke();
+                       }
+                     shiftCoords();
+                   }
+                   else {
+                       //console.log("NE");
+                       while (currX <= xPoints[1]) {
+                           currX++;
+                           actY += d;
+                           if ((actY) > (currY - .5)) {
+
+                               context.lineTo(currX, currY);
+                               ////console.log('Y? ' + (actY) + 'choice: '+ currX + "," +currY);
+                           }
+
+                           else if ((actY) <= (currY - .5)) {
+                               currY -= 1;
+                               context.lineTo(currX, currY);
+                               ////console.log('Y? ' + (actY) + 'choice: '+ currX + "," +currY);
+                           }
+                           changecolors(); 
+                           
+                           context.stroke();
+                       }
+                       shiftCoords();
+                   }
+               }
+            }
+         }
+      }
+      clearCoords();
+
+   };
+   
+   var polygon = function () {
+      console.log('polygon');
+      var startX;
+      var startY;
+      var insertLast = false;
+      var prompter = document.getElementById("promptDiv");
+      prompter.innerHTML = "Please click on the canvas to select the starting point and ending point of each side of your polygon, then click the 'Draw Polgon' button again to draw it! (Do NOT close the polygon yourself!)";
+      if(xPoints.length >1){//save starting points for the last connection
+         startX = xPoints[0];
+         startY = yPoints[0];
+      }
+      while ((xPoints.length)>=1) {
+         var actY;
+         var d = '';
+         var xDistTotal;
+         var yDistTotal;
+         var SE = false;
+         var NE = false;
+         var SW = false;
+         var NW = false;
+         var alt = false;
+         if(xPoints.length === 1 && insertLast===false){
+            xPoints.push(startX);
+            yPoints.push(startY);
+            insertLast = true;
+         }
+         if (xPoints.length >= 2) {
+
+               currX = xPoints[0];
+               currY = yPoints[0];
+               actY = yPoints[0];
+               actX = xPoints[0];
+               xDistTotal = xPoints[1] - xPoints[0];
+               yDistTotal = yPoints[1] - yPoints[0];
+               d = yDistTotal / xDistTotal;
+               if(Math.abs(d)> 1){
+                 alt = true;
+                 //console.log('using alt');
+               }
+               //console.log('d: ' + d);
+
+               if (xDistTotal > 0 && d >= 0 && yPoints[0] < yPoints[1]) {
+                  SE = true;
+               }
+               else if (xDistTotal > 0 && d <= 0) {
+                  NE = true;
+               }
+               else if (xDistTotal < 0 && d <= 0 && yPoints[0] < yPoints[1]) {
+                  SW = true;
+                  NE = true;
+               }
+               else {//xDistTotal< 0 && d >= 0
+                  NW = true;
+                  SE = true;
+               }
+               context.beginPath();
+               context.moveTo(xPoints[0], yPoints[0]);
+               if(yPoints[1] === yPoints[0]){ //handle vertical lines
+                  context.lineTo(xPoints[1], yPoints[1]);
+                  clearCoords();
+                  NW = false;
+                  SE = false;
+                  SW = false;
+                  NE = false;
+               }
+               if(alt){
+                  d = xDistTotal/yDistTotal;
+                  if (SE) {
+                      if (NW) {
+                          //console.log("NW");
+                          while (currY >= yPoints[1]) {
+                              currY--;
+                              actX -= d;
+                              // //console.log(xPoints[1] + "is supposed to be the end x coordinate. Current X: "+ currX);
+                              if (currY > yPoints[1]) {
+                                 if ((actX) <= (currX - .5)) {
+                                    currX--;
+                                    context.lineTo(currX, currY);
+                                    ////console.log('Y? ' + (actY) + 'choice: '+ currX + "," +currY);
+                                 }
+                                 else{//if ((actX) > (currX - .5)) {
+                                      context.lineTo(currX, currY);
+                                      ////console.log('Y? ' + (actY) + 'choice: ' + currX + "," + currY);
+                                 } //  
+                                 
+                              }
+
+                              changecolors(); 
+                              
+                              context.stroke();
+                          }
+                        shiftCoords();
+                      }
+                      else {
+                           //console.log("SE");
+                           while (currY <= yPoints[1]) {
+                              currY++;
+                              actX += d;
+
+                              if ((actX) <= (currX + .5)) {
+                                  context.lineTo(currX, currY);
+                                  // //console.log('Y? ' + (actY) + 'choice: '+ currX + "," +currY);
+                              }
+
+                              else if ((actX) > (currX + .5)) {
+                                  currX++;
+                                  context.lineTo(currX, currY);
+                                  // //console.log('Y? ' + (actY) + 'choice: '+ currX + "," +currY);
+                              }
+                              changecolors(); 
+                              
+                              context.stroke();
+                           }
+                        shiftCoords(); 
+                     }
+
+                  }
+                  else /*if(NE)*/ {
+                      if (SW) {
+                          //console.log("SW");
+                          while (currY <=yPoints[1]) {
+                              currY++;
+                              actX += d;
+                              if ((actX) < (currX - .5)) {
+                                  currX--;
+                                  context.lineTo(currX, currY);
+                                  // //console.log('Y? ' + (actY) + 'choice: '+ currX + "," +currY);
+                              }
+
+                              else{// if ((actX) < (currX - .5)) {
+                                  context.lineTo(currX, currY);
+                                  ////console.log('Y? ' + (actY) + 'choice: '+ currX + "," +currY);
+                              }
+                              changecolors(); 
+                              
+                              context.stroke();
+                          }
+                        shiftCoords();
+                      }
+                      else {
+                          //console.log("NE");
+                          while (currY >= yPoints[1] && currX <= xPoints[1]) {
+                              currY--;
+                              actX -= d;
+                              if ((actX) > (currX + .5)) {
+                                  currX ++;
+                                  context.lineTo(currX, currY);
+                                  ////console.log('Y? ' + (actY) + 'choice: '+ currX + "," +currY);
+                              }
+                              else{//if((actX) <= (currX - .5)) {
+                                  context.lineTo(currX, currY);
+                                  ////console.log('Y? ' + (actY) + 'choice: '+ currX + "," +currY);
+                              }
+                              changecolors(); 
+                              
+                              context.stroke();
+                          }
+                        shiftCoords();
+                      }
+                  }
+               }
+               else{
+                  if (SE) {
+                      if (NW) {
+                          //console.log("NW");
+                          while (currX >= xPoints[1]) {
+                              currX--;
+                              actY -= d;
+                              // //console.log(xPoints[1] + "is supposed to be the end x coordinate. Current X: "+ currX);
+                              if (currX > xPoints[1]) {
+                                  if ((actY) > (currY - .5)) {
+                                      context.lineTo(currX, currY);
+                                      //console.log('Y? ' + (actY) + 'choice: ' + currX + "," + currY);
+                                  } //  
+                                  else if ((actY) <= (currY - .5)) {
+                                      currY--;
+                                      context.lineTo(currX, currY);
+                                      ////console.log('Y? ' + (actY) + 'choice: '+ currX + "," +currY);
+                                  }
+                              }
+                              changecolors(); 
+                              
+                              context.stroke();
+                          }
+                        shiftCoords();
+                      }
+                      else {
+                          //console.log("SE");
+                          while (currX <= xPoints[1]) {
+                              currX++;
+                              actY += d;
+
+                              if ((actY) <= (currY + .5)) {
+                                  context.lineTo(currX, currY);
+                                  // //console.log('Y? ' + (actY) + 'choice: '+ currX + "," +currY);
+                              }
+
+                              else if ((actY) > (currY + .5)) {
+                                  currY++;
+                                  context.lineTo(currX, currY);
+                                  // //console.log('Y? ' + (actY) + 'choice: '+ currX + "," +currY);
+                              }
+                              changecolors(); 
+                              
+                              context.stroke();
+                          }
+                        shiftCoords(); 
+                     }
+                  }
+                  else /*if(NE)*/ {
+
+
+                      if (SW) {
+                          //console.log("SW");
+                          while (currX >= xPoints[1]) {
+                              currX--;
+                              actY -= d;
+                              if ((actY) >= (currY + .5)) {
+                                  currY++;
+                                  context.lineTo(currX, currY);
+                                  // //console.log('Y? ' + (actY) + 'choice: '+ currX + "," +currY);
+                              }
+
+                              else if ((actY) < (currY - .5)) {
+
+                                  context.lineTo(currX, currY);
+                                  ////console.log('Y? ' + (actY) + 'choice: '+ currX + "," +currY);
+                              }
+                              changecolors(); 
+                              
+                              context.stroke();
+                          }
+                        shiftCoords();
+                      }
+                      else {
+                          //console.log("NE");
+                          while (currX <= xPoints[1]) {
+                              currX++;
+                              actY += d;
+                              if ((actY) > (currY - .5)) {
+
+                                  context.lineTo(currX, currY);
+                                  ////console.log('Y? ' + (actY) + 'choice: '+ currX + "," +currY);
+                              }
+
+                              else if ((actY) <= (currY - .5)) {
+                                  currY -= 1;
+                                  context.lineTo(currX, currY);
+                                  ////console.log('Y? ' + (actY) + 'choice: '+ currX + "," +currY);
+                              }
+                              changecolors(); 
+                              
+                              context.stroke();
+                          }
+                          shiftCoords();
+                      }
+                  }
+               }
+         }
+         if(insertLast) break;//stop trying to draw things once we're done.
+      }
+   clearCoords();
+   };
+   
+   var rectangle = function () {
+      console.log('rectangle');
+      context.beginPath();
+      changecolors();
+      context.strokeStyle = color;
+        var prompter = document.getElementById("promptDiv");
+        prompter.innerHTML = "Please click on the canvas to select one corner of your rectangle, then the corner at its diagonal opposite.Click the 'Draw Rectangle' button again to draw it!";
+        if (xPoints.length === 2) {
+            prompter.innerHTML = "Please click on the canvas to select one corner of your rectangle, then the corner at its diagonal opposite.Click the 'Draw Rectangle' button again to draw it!<br>Corner 01: (" + xPoints[0] + "," + yPoints[0] + ")" + "<br>Corner 02: (" + xPoints[1] + "," + yPoints[0] + ")<br>Corner 03: (" + xPoints[1] + "," + yPoints[1] + ")<br>Corner 04: (" + xPoints[0] + "," + yPoints[1] + ")";
+            context.moveTo(xPoints[0], yPoints[0]);
+            context.lineTo(xPoints[1], yPoints[0]);
+            changecolors(); 
+            
+            context.stroke();
+            context.lineTo(xPoints[1], yPoints[1]);
+            changecolors(); 
+            
+            context.stroke();
+            context.lineTo(xPoints[0], yPoints[1]);
+            changecolors(); 
+            
+            context.stroke();
+            context.lineTo(xPoints[0], yPoints[0]);
+            changecolors(); 
+            
+            context.stroke();
+            clearCoords();
+         }
+      };
+    
+   var ellipse = function () {//see circle reference for references
+      console.log('ellipse');
+      var prompter = document.getElementById("promptDiv");
+      prompter.innerHTML = "Please click on the canvas to select your center point, horizontal radius and verical radius. Click the 'Draw Ellipse' button again to draw it! [Currently does not draw an ellipse.]";
+/* Tried various things and couldn't figure out how to do this particular shape. Every writeup I read on how to do this lost me very quickly.*/
+     
+      if (xPoints.length == 3){
+
+         var radiusX = Math.abs(xPoints[1] - xPoints[0]);
+         var radiusY = Math.abs(yPoints[2] - yPoints[0]);
+         var xIncrement = 0;
+         var yIncrement = 0;   
+         var x =   radiusX;       
+         var y = 0;
+         var errVal = 1-radiusX;
+         
+        while(radiusX >= y)
+        {
+         context.moveTo(x + xPoints[0], y-1 + yPoints[0]);
+         context.lineTo((x + xPoints[0]),   y + yPoints[0]);
+         
+         context.moveTo( y-1 + xPoints[0],  x + yPoints[0]);
+         context.lineTo( y + xPoints[0],  x + yPoints[0]);
+         
+         context.moveTo(-x + xPoints[0],  y-1 + yPoints[0]);
+         context.lineTo(-x + xPoints[0],  y + yPoints[0]);
+         
+        context.moveTo(-y + xPoints[0],  x + yPoints[0] -1);
+        context.lineTo(-y + xPoints[0],  x + yPoints[0]);
+         
+         context.moveTo(-x + xPoints[0], -y + yPoints[0]-1);
+         context.lineTo(-x + xPoints[0], -y + yPoints[0]);
+         
+       context.moveTo(-y + xPoints[0], -x + yPoints[0]-1);
+       context.lineTo(-y + xPoints[0], -x + yPoints[0]);
+                  
+        context.moveTo( x-1 + xPoints[0], -y + yPoints[0]);
+        context.lineTo( x + xPoints[0], -y + yPoints[0]);
+                   
+        context.moveTo( y-1 + xPoints[0], -x + yPoints[0]);
+        context.lineTo( y + xPoints[0], -x + yPoints[0]);
+                
+         y++;
+            if (errVal< 0)
+            {
+               errVal +=  2* y - 1;
+            }
+            else
+            {
+             x--;
+               errVal += 2*(y - radiusX) - 1;
+            }
+         }
+            changecolors(); 
+            
+            context.stroke();
+            
+            clearCoords();
+         }
+
+   };   
+   var circle = function () { //reference: http://en.wikipedia.org/wiki/Midpoint_circle_algorithm
+      console.log('circle');
+      context.beginPath();
+      var prompter = document.getElementById("promptDiv");
+      prompter.innerHTML = "Please click on the canvas to select the center point of your circle, then again to choose a point from which to calculate the  circle's radius. Click the 'Draw Circle' button again to draw it!";
+      if (xPoints.length === 2) {
+
+         var radiusX = Math.abs(xPoints[1] - xPoints[0]);
+         var y = 0;
+         var errVal = 1-radiusX;
+         
+        while(radiusX >= y)
+        {
+         context.moveTo(radiusX +xPoints[0], y-1 + yPoints[0]);
+         context.lineTo((radiusX + xPoints[0]),   y + yPoints[0]);
+         
+         context.moveTo( y-1 + xPoints[0],  radiusX + yPoints[0]);
+         context.lineTo( y + xPoints[0],  radiusX + yPoints[0]);
+         
+         context.moveTo(-radiusX + xPoints[0],  y-1 + yPoints[0]);
+         context.lineTo(-radiusX + xPoints[0],  y + yPoints[0]);
+         
+         context.moveTo(-y + xPoints[0],  radiusX + yPoints[0] -1);
+         context.lineTo(-y + xPoints[0],  radiusX + yPoints[0]);
+         
+         context.moveTo(-radiusX + xPoints[0], -y + yPoints[0]-1);
+         context.lineTo(-radiusX + xPoints[0], -y + yPoints[0]);
+         
+         context.moveTo(-y + xPoints[0], -radiusX + yPoints[0]-1);
+         context.lineTo(-y + xPoints[0], -radiusX + yPoints[0]);
+                  
+         context.moveTo( radiusX-1 + xPoints[0], -y + yPoints[0]);
+         context.lineTo( radiusX + xPoints[0], -y + yPoints[0]);
+                   
+         context.moveTo( y-1 + xPoints[0], -radiusX + yPoints[0]);
+         context.lineTo( y + xPoints[0], -radiusX + yPoints[0]);
+         y++;
+            if (errVal< 0)
+            {
+               errVal +=  2* y - 1;
+            }
+            else
+            {
+               radiusX--;
+               errVal += 2*(y - radiusX) - 1;
+            }
+         }
+            changecolors(); 
+            
+            context.stroke();
+            
+            clearCoords();
+         }
+   };
+   
+   </script>
+   
+   
+   </body>
+</html>
