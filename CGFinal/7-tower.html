@@ -2,17 +2,16 @@
 <html>
    <head>
       <meta charset="utf-8">
-      <title>Graphics Final Exam Question 6: Prism</title>
-      
-      
+      <title>Graphics Final Exam Question 7: Tower</title>
+
    </head>
    <body>
       <div>
          <div style="float:left">
          <svg id="view" height="400" width="400" style="border: 1px solid black">
 
-            <g id="poly">
-               <polygon points=""id="base" style="stroke:purple; stroke-width:2; fill:none" />
+               
+               <polygon points=""id="base" style="stroke:purple; stroke-width:2; fill:transparent" />
                <line id="line1" x1="0" y1="0" x2="0" y2="0" style="stroke:purple;stroke-width:2" />
                <line id="line2" x1="0" y1="0" x2="0" y2="0" style="stroke:purple;stroke-width:2" />
                <line id="line3" x1="0" y1="0" x2="0" y2="0" style="stroke:purple;stroke-width:2" />
@@ -25,8 +24,12 @@
                <line id="line10" x1="0" y1="0" x2="0" y2="0" style="stroke:purple;stroke-width:2" />
                <line id="line11" x1="0" y1="0" x2="0" y2="0" style="stroke:purple;stroke-width:2" />
                <line id="line12" x1="0" y1="0" x2="0" y2="0" style="stroke:purple;stroke-width:2" />
-               <polygon points=""id="extrusion" style="stroke:purple; stroke-width:2; fill:none" /> 
-            </g>
+               <polygon points=""id="extrusion" style="stroke:purple; stroke-width:2; fill:transparent" /> 
+             
+     
+            
+           
+         
          </svg>
          </div>
          <div style="display:inline-block; position:relative;top:155px; padding:15px"> 
@@ -34,8 +37,12 @@
             
             </div>
             <form id="getInput">
-               <input type="text" name="N" id="N" onblur="gotNvalue()">Number of vertices in polygon (max of 12)<br>
-               <input type="text" name="Z" id="Z" onblur="gotHeight()">Height of prism
+               <input type="text" name="P" id="P" onblur="gotPvalue()">Number of vertices in polygon (max of 12)<br>
+               <input type="text" name="N" id="N" onblur="gotNvalue()">Number layers<br>
+               <input type="text" name="Z" id="Z" onblur="gotHeight()">Height of base<br>
+               <!-- could only get the height of the base to remain the same; spent already too long trying different approaches to be able to get all layers to be the same and failed.  Need to move on to other exam problems.-->
+               <input type="text" name="S" id="S" onblur="gotShrink()">Shrinking factor for each layer<br>
+               
                <div id="inputAdder"></div>
             </form>
             <ul>
@@ -46,9 +53,9 @@
             </ul>
 
          </div>
-         <a href="http://tychelaughs.github.io/uziHomeworkPages/CGFinal/7-tower.html">Graphics Final Exam Question 7: Tower</a>
-      </div>
-      <script src="6-prism-tested.js"></script>
+         
+      </div><div style="position:relative;top:150px"><a href="http://tychelaughs.github.io/uziHomeworkPages/CGFinal/8-colors.html">Graphics Final Exam Question 8: Colors</a></div>
+      <script src="7-tower-tested.js"></script>
    </body>
    
    

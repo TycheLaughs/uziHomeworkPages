@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+   <head>
+   <meta charset="utf-8">
+   <title>Graphics Final Exam Question 8: Colors</title>
+   <style>
+      li{
+         list-style-type:none;
+      }
+   </style>
+   </head>
+   <body>
+   <img id="pal" src="colorPicker.jpg" style="position:absolute; left:-50px">
+   <div style="width:800px">
+      <div style="position:relative;float:left">
+         <canvas id="fin08" width="500" height="400" style="border: 1px solid #000; margin:5px"></canvas>
+      </div>
+      <div style="display:inline-block; position:relative">
+     
+      <ul>  Colors: 
+      <li><input type="radio" name="mode" value="0" checked onchange="toggleMode()">Draw</li>
+      <li><input type="radio" name="mode" value="1" onchange="toggleMode()">Color Picker</li>
+     
+      <!--
+         <li><input type="radio" name="fillVal" value="black"checked>black</li>
+         <li><input type="radio" name="fillVal" value="purple">purple</li>
+         <li><input type="radio" name="fillVal" value="red" >red</li>
+         <li><input type="radio" name="fillVal" value="green">green</li>
+         <li><input type="radio" name="fillVal" value="blue">blue</li>
+         <li><input type="radio" name="fillVal" value="yellow">yellow</li>
+         <li><input type="radio" name="fillVal" value="orange">orange</li>-->
+      </ul>
+      <ul>Brush Thickness:
+         <li><input type="radio" name="strokeVal" value="1"checked onchange="changeweight()">normal/default</li>
+         <li><input type="radio" name="strokeVal" value="3"  onchange="changeweight()">thick</li>
+         <li><input type="radio" name="strokeVal" value="5" onchange="changeweight()">thicker</li>
+         <li><input type="radio" name="strokeVal" value="9" onchange="changeweight()">very thick</li>
+      </ul><ul>Brush:
+         <li><input type="radio" name="shape" value="square" checked onchange="changebrush()">square</li>
+         <li><input type="radio" name="shape" value="circle" onchange="changebrush()">circle</li>
+         <li><input type="radio" name="shape" value="eraseArc" onchange="changebrush()">circular eraser</li>
+         <li><input type="radio" name="shape" value="eraseSqr" onchange="changebrush()">square eraser</li>
+      </ul> <span id="clearButton"style="border: 1px solid #000; border-radius:9px; line-height: 1.8; padding:2px" onclick="clearCanvAll()">Clear Canvas</span>
+   </div>
+      </div>
+   </div>
+   <script src="8-colors-tested.js"></script>
+   </body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+      <meta charset="utf-8"> 
+		<title>Graphics Final Exam Question 1: Line-Line Intersection</title>
+      
+		<!--Write a program that will take two line segments in parametric form as
+input, and will return their intersection point, if they intersect. If they don’t, the
+program should return an appropriate response. (One parametric form of a line
+equation is: p(t) = (1 – t) p1 + t p2. To input the two lines, you will have to input (x, y,
+z) coordinates for each one of the two endpoints, p1 and p2 for each one of the lines. If
+you prefer, you can input them interactively on the screen*/
+
+//check if the start or end points or both are the same
+//if start same but end different, intersection at start
+//vice versa with end
+//using L = p1 + t(p1-p2) 
+//are t(p1-p2) same between the two lines? if so, parallel. no intersection
+-->
+
+	</head>
+	<body> 
+      <div style="width:800px">
+         <div style="position:relative;float:left">
+            <canvas id="fin01" width="500" height="400" style="border: 1px solid #000; margin:5px"></canvas>
+         </div>
+         <div style="display:inline-block; position:relative">
+            <div id="inputAdder"></div>
+           <!-- <form id="getInput">
+               <input type="text" name="xCoord" id="xCoord">X
+               <input type="text" name="yCoord" id="yCoord">Y<br><br>
+            </form>-->
+            <script src="1-line-line-intersection.js"></script>
+            <a href="http://tychelaughs.github.io/uziHomeworkPages/CGFinal/2-line-polygon-intersection.html">Graphics Final Exam Question 2: Line-Polygon Intersection</a>
+         </div>
+      </div>
+	</body>
+</html>

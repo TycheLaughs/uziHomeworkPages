@@ -4,13 +4,6 @@ your choice) and a z height, and your program should output a computer model of 
 prism. (This is modeling, not drawing, but you may, optionally draw your generated
 model, for additional 5 points.)*/
 
-//in SVG, first ask how many enpoint vertices on the plane. 
-//request that the vertices be entered in clockwise fashion, starting at top right or top center
-//if even number of vertices, increment the y value by 5 after each verticex entered, until half of them have been entered. if odd, do the same until one more than half have been entered.  Then decrement the y by 5 until end. Remember to push each vertex to an array of x and y respectively
-//make a second array, incrementing the input y values by some user-input value.
-//draw lines between each point on each plygonal face, then each matching face
-
-
       //attribute orders found when using console.log:
      /*  line [ style="stroke:rgb(0,0,255);stroke-width:3", y2="1", x2="1", y1="0", x1="0", id="line1" ] 6-prism.html:80:6
          polygon [ style="stroke:purple; stroke-width:3; fill:none", id="base", points="10,20 20,30 30,40 50,30 40,60 " ]*/
@@ -54,7 +47,7 @@ model, for additional 5 points.)*/
          n = Number(document.forms.namedItem('getInput').N.value);
          //console.log(n); 
          if(n <=12 && n > 0){
-            document.getElementById('inputAdder').innerHTML = 'Enter x and y coordinate values for each point individually, in either clockwise or counter clockwise order. <br>For best visual results, use x values from 10 to 390 and y values from 100 to 390:'+'<br>'+'<input type="text" name="xCoord" id="xCoord" onblur="gotX()">X'+'<br>'+'<input type="text" name="yCoord" id="yCoord" onblur="gotY()">Y';
+            document.getElementById('inputAdder').innerHTML = 'Enter x and y coordinate values for each point individually, in clockwise order from top right or center. <br>For best visual results, use x values from 10 to 390 and y values from 100 to 390:'+'<br>'+'<input type="text" name="xCoord" id="xCoord" onblur="gotX()">X'+'<br>'+'<input type="text" name="yCoord" id="yCoord" onblur="gotY()">Y';
             document.getElementById('pointsList').innerHTML = 'n='+ n +'<br>Your vertices:'+'<br>';
             
          }
@@ -90,82 +83,7 @@ model, for additional 5 points.)*/
       function gotHeight(){
          z = Math.abs(Number(document.forms.namedItem('getInput').Z.value));
       }
-      /* erase function currently messes up the possibility of teh redraw, so I'm removing the temptation of using it entirely.
-      function erase(){
-         bas.attributes[2].value = "";
-         ex.attributes[2].value = "";
-         bp.length= 0;
-         xp.length = 0;
-
-         one.attributes[4].value = "0";
-         one.attributes[3].value = "0";
-         one.attributes[2].value = "0";
-         one.attributes[1].value = "0";
-
-         two.attributes[4].value = "0";
-         two.attributes[3].value = "0";
-         two.attributes[2].value = "0";
-         two.attributes[1].value = "0";
-
-         three.attributes[4].value = "0";
-         three.attributes[3].value = "0";
-         three.attributes[2].value = "0";
-         three.attributes[1].value = "0";
-
-         four.attributes[4].value = "0";
-         four.attributes[3].value = "0";
-         four.attributes[2].value = "0";
-         four.attributes[1].value = "0";
-
-         five.attributes[4].value = "0";
-         five.attributes[3].value = "0";
-         five.attributes[2].value = "0";
-         five.attributes[1].value = "0";
-
-         six.attributes[4].value = "0";
-         six.attributes[3].value = "0";
-         six.attributes[2].value = "0";
-         six.attributes[1].value = "0";
-
-         seven.attributes[4].value = "0";
-         seven.attributes[3].value = "0";
-         seven.attributes[2].value = "0";
-         seven.attributes[1].value = "0";
-
-         eight.attributes[4].value ="0";
-         eight.attributes[3].value = "0";
-         eight.attributes[2].value = "0";
-         eight.attributes[1].value ="0";
-
-         nine.attributes[4].value = "0";
-         nine.attributes[3].value = "0";
-         nine.attributes[2].value = "0";
-         nine.attributes[1].value ="0";
-
-         ten.attributes[4].value = "0";
-         ten.attributes[3].value = "0";
-         ten.attributes[2].value = "0";
-         ten.attributes[1].value = "0";
-
-         eleven.attributes[4].value = "0";
-         eleven.attributes[3].value = "0";
-         eleven.attributes[2].value = "0";
-         eleven.attributes[1].value = "0";
-
-         twelve.attributes[4].value = "0";
-         twelve.attributes[3].value = "0";
-         twelve.attributes[2].value = "0";
-         twelve.attributes[1].value = "0";
-
-         n = 0;
-         z = 0;
-         document.getElementById('inputAdder').innerHTML = '';
-         document.getElementById('pointsList').innerHTML = '';
-         document.getElementById('N').value = '';
-         document.getElementById('Z').value = '';
-         xIn.length = 0;
-         yIn.length = 0;
-      }*/
+     
       function draw(){
          while(bp.length <= n){
             for(var i = 0; i < n; i++){
