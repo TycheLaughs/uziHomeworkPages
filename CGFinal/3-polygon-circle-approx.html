@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+   <head>
+   <meta charset="utf-8">
+   <title>Graphics Final Exam Question 3: Circle Approximation</title>
+   <style>
+      li{
+         list-style-type:none;
+      }
+   </style>
+   </head>
+   <body>
+      <div style="width:800px">
+         <div style="position:relative;float:left">
+            <canvas id="fin08" width="500" height="500" style="border: 1px solid #000; margin:5px"></canvas>
+         </div>
+          <form id="getInput">
+              <!-- <input type="text" name="N" id="N" onchange="getNvalue()">-->Number of segments in polygon (max of 20)<br>
+               <input type="range" name="nSlider" id="nSlider" min="0" max="20" onchange="getNvalue()" defaultvalue="8" ><span id="printN"></span><br>
+               <input type="text" name="R" id="R" onchange="getRadius()">Circle Radius (Best results with range 100 to 200)<br>
+               <div id="printE"></div>
+            </form>
+            <!--<span id="clearButton"style="border: 1px solid #000; border-radius:9px; line-height: 1.8; padding:2px" onclick="clearCanv()">Clear Canvas</span>-->
+      </div>
+      <script src="3-polygon-circle-approx-tested.js"></script>
+   </body>
+</html>
