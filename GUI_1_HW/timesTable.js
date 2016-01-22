@@ -19,7 +19,7 @@ function tablegen(colMin, colMax, rowMin, rowMax){
          stringOut +="<tr><td> </td>";
          console.log(stringOut + "Added that first space");
 
-         for(k; k <= rowMax; k++){
+         for(k; k <= Number(rowMax); k++){
           console.log(stringOut + "Adding index row");
           stringOut +="<td>" + k + "</td>";
          }

@@ -1,5 +1,5 @@
 	/*File: http://weblab.cs.uml.edu/~ssouza/css/A03a.css
-	91.461 Assignment 6: HTML forms and JavaScript
+	91.461 Assignment 7: HTML forms and JavaScript
 	Susan 'Uzi' Souza, Undergraduate Computer Science Student at UMass Lowell, Susan_Souza@student.uml.edu
 	This assignment is meant to generate a multiplication table from input entered in a form on a single page.
 	Created on October 21, 2014 by Uzi.
