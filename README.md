@@ -1,7 +1,6 @@
 #Homework Pages
 ======== 
-
-A collection of pages made for classes.
+##A collection of pages made for classes.
 
 ###Some small exercises implemented for the Computer Graphics I final exam in 2015
 
