@@ -23,7 +23,7 @@
 
 (from bottom left) Top, Isometric Projection, Trimetric Projection, Dimetric Projection, Oblique Projection
 
-**[Trying out some 3D](http://tychelaughs.github.io/uziHomeworkPages/CGHW/hw04Acg.html)** - And experiment with [Three.js](http://threejs.org/) and materials. (from left) Reflective cube, die with texture and bump map, die with bump map only
+**[Trying out some 3D](http://tychelaughs.github.io/uziHomeworkPages/CGHW/hw04Acg.html)** - An experiment with [Three.js](http://threejs.org/) and materials. (from left) Reflective cube, die with texture and bump map, die with bump map only
 
 ###Some small pages made over the course of GUI I in 2014
 
